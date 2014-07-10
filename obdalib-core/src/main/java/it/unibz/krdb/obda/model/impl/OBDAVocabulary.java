@@ -245,6 +245,13 @@ public class OBDAVocabulary {
 	public static final String SPARQL_REGEX_URI = "regex";
 	
 	public static final String SPARQL_LIKE_URI = "like";
+	
+	
+	/*SPARQL spatial functions*/
+	public static final String NS_STRDF = "<http://strdf.di.uoa.gr/ontology#>";
+	
+	public static final String overlap = "<http://strdf.di.uoa.gr/ontology#overlap>";
+	
 
 	/* SPARQL Algebra predicate */
 
