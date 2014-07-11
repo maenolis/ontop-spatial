@@ -85,6 +85,10 @@ public class OBDAVocabulary {
 
 	public static final String strIS_TRUE = "IS_TRUE";
 	
+	public static final String strOverlaps = "OVERLAPS";
+	
+	public static final String strGeomFromWKT = "GEOMFROMWKT";
+	
 	/* Boolean predicates */
 
 	public static final Predicate AND = new BooleanOperationPredicateImpl(
@@ -92,6 +96,12 @@ public class OBDAVocabulary {
 
 	public static final Predicate EQ = new BooleanOperationPredicateImpl(
 			strEQ, 2);
+	
+	public static final Predicate OVERLAPS = new BooleanOperationPredicateImpl(
+			strOverlaps, 2);
+	
+	public static final Predicate GEOMFROMWKT = new BooleanOperationPredicateImpl(
+			strGeomFromWKT, 1);
 
 	public static final Predicate GTE = new BooleanOperationPredicateImpl(
 			strGTE, 2);

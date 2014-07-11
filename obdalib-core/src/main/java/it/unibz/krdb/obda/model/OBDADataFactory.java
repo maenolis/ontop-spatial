@@ -141,6 +141,11 @@ public interface OBDADataFactory extends Serializable {
 
 	public Function getLANGMATCHESFunction(Term term1, Term term2);
 	
+	
+	public Function getFunctionOverlaps(Term term1, Term term2);
+	
+	public Function getFunctionGeomFromWKT(Term term1);
+	
 	public Function getFunctionLike(Term term1, Term term2);
 	
 
