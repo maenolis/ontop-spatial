@@ -648,6 +648,8 @@ public class QuestStatement implements OBDAStatement {
 		
 		// Translate the SPARQL algebra to datalog program
 		DatalogProgram initialProgram = translateAndPreProcess(query, signatureContainer);
+		System.out.println("QuestStatement.translateAndPreprocessed:"+ initialProgram.toString());
+
 		
 		// Perform the query rewriting
 		DatalogProgram programAfterRewriting = getRewriting(initialProgram);
@@ -723,6 +725,7 @@ public class QuestStatement implements OBDAStatement {
 				queryIsParsed = false;
 			}
 			//getSignature(query, signatureContainer);
+			System.out.println("QuestStatement: parsed query"+query);
 			getSignature(query, signatureContainer);
 
 			sesameQueryCache.put(strquery, query);
