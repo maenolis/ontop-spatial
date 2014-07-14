@@ -129,7 +129,10 @@ public class SesameBindingSet implements BindingSet {
 						} else if (col_type == COL_TYPE.STRING) {
 							URI datatype = XMLSchema.STRING;
 							value = fact.createLiteral(c.getValue(), datatype);
-						}						
+						} else if (col_type == COL_TYPE.GEOMETRY) {
+							URI datatype = fact.createURI(OBDAVocabulary.GEOSPARQL_WKT_LITERAL_DATATYPE);
+							value = fact.createLiteral(c.getValue(), datatype);
+						} 							
 					}
 				}
 			}
