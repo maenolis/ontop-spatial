@@ -267,6 +267,8 @@ public class QuestResultset implements TupleResultSet {
 			return COL_TYPE.DATETIME;
 		} else if (sqltype == 9) {
 			return COL_TYPE.BOOLEAN;
+		} else if (sqltype == 10) {
+			return COL_TYPE.GEOMETRY;
 		} else if (sqltype == 0) {
 			return null;
 		} else {

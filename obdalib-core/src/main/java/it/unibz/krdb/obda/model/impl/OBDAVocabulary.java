@@ -154,6 +154,8 @@ public class OBDAVocabulary {
 	public static final String XSD_DATETIME_URI = "http://www.w3.org/2001/XMLSchema#dateTime";
 
 	public static final String XSD_BOOLEAN_URI = "http://www.w3.org/2001/XMLSchema#boolean";
+	
+	public static final String GEOSPARQL_WKT_LITERAL_DATATYPE = "http://www.opengis.net/ont/geosparql#wktLiteral";
 
 	/* Data type predicates */
 

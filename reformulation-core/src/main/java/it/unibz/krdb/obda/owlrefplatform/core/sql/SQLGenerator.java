@@ -911,6 +911,8 @@ public class SQLGenerator implements SQLQueryGenerator {
 				return (String.format(typeStr, 4, signature.get(hpos)));
 			} else if (functionString.equals(OBDAVocabulary.XSD_STRING_URI)) {
 				return (String.format(typeStr, 7, signature.get(hpos)));
+			} else if (functionString.equals(OBDAVocabulary.GEOSPARQL_WKT_LITERAL_DATATYPE)) {
+				return (String.format(typeStr, 10, signature.get(hpos)));
 			} else if (functionString.equals(OBDAVocabulary.RDFS_LITERAL_URI)) {
 				return (String.format(typeStr, 3, signature.get(hpos)));
 			} else if (functionString.equals(OBDAVocabulary.QUEST_URI)) {
