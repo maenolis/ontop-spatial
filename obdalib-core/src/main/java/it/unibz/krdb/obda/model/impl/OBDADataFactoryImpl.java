@@ -250,6 +250,11 @@ public class OBDADataFactoryImpl implements OBDADataFactory {
 	}
 
 	@Override
+	public Predicate getDataTypePredicateGeosparql() {
+		return OBDAVocabulary.GEOSPARQL_WKT_LITERAL;
+	}
+
+	@Override
 	public Predicate getUriTemplatePredicate(int arity) {
 		return new URITemplatePredicateImpl(arity);
 	}

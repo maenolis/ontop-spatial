@@ -87,6 +87,8 @@ public interface OBDADataFactory extends Serializable {
 	public Predicate getDataTypePredicateDateTime();
 
 	public Predicate getDataTypePredicateBoolean();
+	
+
 
 	/*
 	 * Built-in function predicates
@@ -331,4 +333,6 @@ public interface OBDADataFactory extends Serializable {
 	Predicate getJoinPredicate();
 
 	Predicate getLeftJoinPredicate();
+
+	Predicate getDataTypePredicateGeosparql();
 }

@@ -1551,8 +1551,10 @@ public class TurtleOBDAParser extends Parser {
 					          functionSymbol = dfac.getDataTypePredicateDateTime();
 					      } else if (functionName.equals(OBDAVocabulary.XSD_BOOLEAN_URI)) {
 					          functionSymbol = dfac.getDataTypePredicateBoolean();
-					      } else {
-					          throw new RecognitionException();
+					      } else if (functionName.equals(OBDAVocabulary.GEOSPARQL_WKT_LITERAL_DATATYPE)){ 
+					    	  functionSymbol = dfac.getDataTypePredicateGeosparql();
+					      }else {
+					    	  throw new RecognitionException();
 					      }
 					      value = dfac.getFunction(functionSymbol, var);
 					     
@@ -2023,8 +2025,10 @@ public class TurtleOBDAParser extends Parser {
 			    	functionSymbol = dfac.getDataTypePredicateDateTime();
 			      } else if (functionName.equals(OBDAVocabulary.XSD_BOOLEAN_URI)) {
 			    	functionSymbol = dfac.getDataTypePredicateBoolean();
-			      } else {
-			        throw new RuntimeException("Unknown datatype: " + functionName);
+			      } else if (functionName.equals(OBDAVocabulary.GEOSPARQL_WKT_LITERAL_DATATYPE)){ 
+			    	functionSymbol = dfac.getDataTypePredicateGeosparql();
+			      }  else {
+			    	  throw new RuntimeException("Unknown datatype: " + functionName);
 			      }
 			      value = dfac.getFunction(functionSymbol, constant);
 			    
