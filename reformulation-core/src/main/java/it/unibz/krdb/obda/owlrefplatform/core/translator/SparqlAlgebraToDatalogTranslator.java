@@ -110,6 +110,7 @@ import org.openrdf.query.algebra.UnaryValueOperator;
 import org.openrdf.query.algebra.Union;
 import org.openrdf.query.algebra.ValueExpr;
 import org.openrdf.query.algebra.Var;
+import org.openrdf.query.algebra.evaluation.function.FunctionRegistry;
 import org.openrdf.query.parser.ParsedGraphQuery;
 import org.openrdf.query.parser.ParsedQuery;
 import org.openrdf.query.parser.ParsedTupleQuery;
@@ -1122,7 +1123,7 @@ public class SparqlAlgebraToDatalogTranslator {
 		if (typeURI == null) return COL_TYPE.LITERAL;
 		
 		final String dataTypeURI = typeURI.stringValue();
-
+				
 		if (dataTypeURI == null) {
 			dataType = COL_TYPE.LITERAL;
 		} else {
@@ -1166,6 +1167,9 @@ public class SparqlAlgebraToDatalogTranslator {
 	}
 
 	private Term getBooleanTerm(ValueExpr expr) {
+		
+	//	org.openrdf.query.algebra.evaluation.function.Function fc = FunctionRegistry.getInstance().get(((org.openrdf.query.algebra.FunctionCall)expr).getURI());
+
 		if (expr instanceof Var) {
 			return getVariableTerm((Var) expr);
 		} else if (expr instanceof org.openrdf.query.algebra.ValueConstant) {
@@ -1197,6 +1201,8 @@ public class SparqlAlgebraToDatalogTranslator {
 			
 			return ofac.getFunction(OBDAVocabulary.IS_NOT_NULL, getVariableTerm(((Bound) expr).getArg()));
 		} else {
+			//Function function = FunctionRegistry.getInstance().get(expr.toString());
+
 			throw new RuntimeException("The builtin function "
 					+ expr.toString() + " is not supported yet!");
 		}

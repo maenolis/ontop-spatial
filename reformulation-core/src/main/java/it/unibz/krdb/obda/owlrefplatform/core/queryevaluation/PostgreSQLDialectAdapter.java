@@ -60,6 +60,7 @@ public static int GEOMETRYSQLDATATYPE = 1111;
 		if (type == Types.VARCHAR) {
 			strType = "VARCHAR(10485760)";
 		} else if (type == GEOMETRYSQLDATATYPE) { //if the column is a geometry column, a cast is not enough 
+			//return "ST_AsText(" + value + ")";  
 			return "CONCAT('<http://www.opengis.net/def/crs/EPSG/0/4326> ' , ST_AsText(" + value + "))";  
 		} else {
 			throw new RuntimeException("Unsupported SQL type");

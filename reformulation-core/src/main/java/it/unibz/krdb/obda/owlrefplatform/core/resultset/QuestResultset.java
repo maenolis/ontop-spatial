@@ -203,6 +203,7 @@ public class QuestResultset implements TupleResultSet {
 
 					} else if (type == COL_TYPE.DATETIME) {
 						Timestamp value = set.getTimestamp(column);
+						//String debug = set.getObject(9).toString();
 						result = fac.getConstantLiteral(value.toString().replace(' ', 'T'), type);
 					} else {
 						result = fac.getConstantLiteral(realValue, type);
