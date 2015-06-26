@@ -79,6 +79,7 @@ import org.openrdf.query.parser.QueryParser;
 import org.openrdf.query.parser.QueryParserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sqlite.SQLiteConfig;
 
 //import com.hp.hpl.jena.query.Query;
 //import com.hp.hpl.jena.query.QueryFactory;
@@ -264,6 +265,15 @@ public class QuestStatement implements OBDAStatement {
 						executingSQL = true;
 						ResultSet set = null;
 						// try {
+						
+						/*constant- load spatialite module before executing the query- maybe this is
+						  not the most appropriate place though*/
+						SQLiteConfig config = new SQLiteConfig();
+				        config.enableLoadExtension( true );
+				        config.setReadOnly( true );
+				     //   sqlstatement.setQueryTimeout( 30 ); // set timeout to 30 sec.
+					//	sqlstatement.execute( "SELECT load_extension('/usr/local/lib/mod_spatialite')" );
+					//	System.out.println("SPATIALITE EXTENSION LOADED");
 
 						set = sqlstatement.executeQuery(sql);
 
