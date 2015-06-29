@@ -31,6 +31,7 @@ import java.sql.Statement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sqlite.SQLiteConfig;
 
 /**
  * The JDBC engine is a implementation of the evaluation engine interface which
