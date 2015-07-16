@@ -1,0 +1,34 @@
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ *
+ * Copyright (C) 2013, Pyravlos Team
+ *
+ */
+package experiments;
+
+import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
+import queries.MicroSelectionsQueriesSet;
+import systemsundertest.SystemUnderTest;
+
+/**
+ * @author George Garbis <ggarbis@di.uoa.gr>
+ */
+public class MicroSelectionsUnifiedExperiment extends Experiment {
+	
+	public MicroSelectionsUnifiedExperiment(SystemUnderTest sut, int repetitions, int timeoutSecs, String logPath) throws IOException {
+		super(sut, repetitions, timeoutSecs, logPath);
+		logger = Logger.getLogger(MicroSelectionsExperiment.class.getSimpleName());
+		queriesSet = new MicroSelectionsQueriesSet(sut);
+	}
+
+	public MicroSelectionsUnifiedExperiment(SystemUnderTest sut, int repetitions, int timeoutSecs, int[] queriesToRun, String logPath) throws IOException {
+		super(sut, repetitions, timeoutSecs, queriesToRun, logPath);
+		logger = Logger.getLogger(MicroSelectionsExperiment.class.getSimpleName());
+		queriesSet = new MicroSelectionsQueriesSet(sut);
+	}
+}
