@@ -83,12 +83,26 @@ public class SesameLGDTest extends TestCase {
 				 						"?x lgd:landUse lgd:port " +
 				 						"}";
 				 
+				 
 				 String ports = prefixes +  "select distinct ?geo where {" +
 	 						"?x lgd:landUse lgd:port . "
 	 						+ "?x geo:asWKT ?geo " +
 	 						"}";
 				 
-
+				 String spatialJoin = prefixes +  "select distinct ?geo where {" +
+	 						"?x lgd:landUse lgd:port . "
+	 						+ "?x geo:asWKT ?geo ." +
+	 						 "?x1 geo:asWKT ?geo1 ."
+	 						+ "FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?geo,?geo1))" +
+	 						"}";
+				 
+				 String spatialSelection = prefixes +  "select distinct ?geo where {" 
+	 						+ "?x lgd:landUse lgd:port . "
+	 						+ "?x geo:asWKT ?geo ." 
+							+ "FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(\"POLYGON((8.650992 53.130738 , 8.816473 53.150921 , 8.933696 53.089958 , 8.674831 53.108923 , 8.650992 53.130738  ))\", ?geo))"
+	 						+ "}";
+				 
+				 
 				 String boatyards = prefixes +  "select distinct ?geo where {" +
 	 						"?x lgd:waterwayCategory lgd:boatyard . "
 	 						+ "?x geo:asWKT ?geo " +
@@ -129,8 +143,14 @@ public class SesameLGDTest extends TestCase {
 	 						"?x lgd:pointType lgd:fire_station  . "
 	 						+ "?x geo:asWKT ?geo " +
 	 						"}";
+				 
+				 String predicates = prefixes +  "select distinct  ?o where {" +
+	 						"?x <http://www.opengis.net/ont/geosparql#asWKT> ?o  . "+
+	 						"} limit 10 ";
+				 
+				  
 	
-			      TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, ferryTerminals);
+			      TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, spatialSelection);
 			      FileOutputStream f = new FileOutputStream("/home/constant/ontop-kml/Vista.kml");
 				  TupleQueryResultHandler handler = new SPARQLResultsTSVWriter(System.out);
 				  //TupleQueryResultWriterFactory kml = new stSPARQLResultsKMLWriterFactory();
