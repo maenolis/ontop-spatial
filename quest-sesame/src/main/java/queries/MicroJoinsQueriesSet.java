@@ -21,7 +21,7 @@ public class MicroJoinsQueriesSet extends QueriesSet {
 		
 	public  MicroJoinsQueriesSet(SystemUnderTest sut) {
 		super(sut);
-		queriesN = 7; // IMPORTANT: Add/remove queries in getQuery implies changing queriesN
+		queriesN = 11; // IMPORTANT: Add/remove queries in getQuery implies changing queriesN
 	}
 
 	@Override
@@ -236,34 +236,52 @@ public class MicroJoinsQueriesSet extends QueriesSet {
 				query = query.replace("ASWKT2",clc_asWKT);
 				query = query.replace("FUNCTION", "sfOverlaps");
 				break;
-				
-				// -- Overlaps -- //
-			 /*case 0:
-				// Q12 Areas overlaping countries
-				label = "Overlap_GADM_CLC_Hotspots"; 
-				query = queryTemplate3;
-				//query = query.replace("GRAPH1", gadm);
-				query = query.replace("ASWKT1", gadm_asWKT);
-				//query = query.replace("GRAPH2", clc);
-				query = query.replace("ASWKT2",clc_asWKT);
-				query = query.replace("ASWKT3",hotspots_asWKT);
-				query = query.replace("FUNCTION1", "sfOverlaps");
-				query = query.replace("FUNCTION2", "sfWithin");
-
-				break;*/
-				
-
-				// -- UA-CLC -- //
-			/*case 0:
-				// Q12 Areas overlaping countries
-				label = "Overlaps_UA_CLC"; 
+			case 7:
+					// Q7 Roads leaving/reaching an area
+				label = "Crosses_LGD_GADM"; 
 				query = queryTemplate;
-				//query = query.replace("GRAPH1", gadm);
-				query = query.replace("ASWKT1", geo_asWKT);
-				//query = query.replace("GRAPH2", clc);
-				query = query.replace("ASWKT2", geo_asWKT);
-				query = query.replace("FUNCTION", "sfOverlaps");
-				break;*/
+				//query = query.replace("GRAPH1", lgd);
+				query = query.replace("ASWKT1", lgd_asWKT);
+				//query = query.replace("GRAPH2", gadm);
+				query = query.replace("ASWKT2", gadm_asWKT);
+				query = query.replace("FUNCTION", "sfCrosses");
+				break;
+				
+			case 8:
+				// Q9 Intercrossing roads
+				label = "Crosses_LGD_LGD"; 
+				query = queryTemplate2;
+				//query = query.replace("GRAPH1", lgd);
+				query = query.replace("ASWKT1", lgd_asWKT);
+				//query = query.replace("GRAPH2", lgd);
+				query = query.replace("ASWKT2", lgd_asWKT);
+				query = query.replace("FUNCTION", "sfCrosses");
+				break;
+				
+				
+			case 9:
+				// Q8 Roads within an area
+				label = "Within_LGD_GADM"; 
+				query = queryTemplate;
+				//query = query.replace("GRAPH1", lgd);
+				query = query.replace("ASWKT1", lgd_asWKT);
+				//query = query.replace("GRAPH2", gadm);
+				query = query.replace("ASWKT2", gadm_asWKT);
+				query = query.replace("FUNCTION", "sfWithin");
+				break;
+				
+			
+			case 10:
+				// Q6 Roads of an area
+				label = "Intersects_LGD_GADM"; 
+				query = queryTemplate;
+				//query = query.replace("GRAPH1", lgd);
+				query = query.replace("ASWKT1", lgd_asWKT);
+				//query = query.replace("GRAPH2", gadm);
+				query = query.replace("ASWKT2", gadm_asWKT);
+				query = query.replace("FUNCTION", "sfIntersects");
+				break;
+				
 				
 			default:
 			logger.error("No such query number exists:"+queryIndex);

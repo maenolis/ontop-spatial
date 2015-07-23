@@ -41,7 +41,7 @@ public class MicroSelectionsQueriesSet extends QueriesSet {
 	
 	public MicroSelectionsQueriesSet(SystemUnderTest sut) throws IOException {
 		super(sut);
-		queriesN = 14; // IMPORTANT: Add/remove queries in getQuery implies changing queriesN
+		queriesN = 15; // IMPORTANT: Add/remove queries in getQuery implies changing queriesN
 		
 		//String spatialDatatype = "<http://www.opengis.net/ont/geosparql#wktLiteral>";
 		givenPoint = "\"POINT(23.71622 37.97945)\"";
@@ -239,6 +239,17 @@ public class MicroSelectionsQueriesSet extends QueriesSet {
 			query = query.replace("ASWKT1", clc_asWKT);
 			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
 			query = query.replace("FUNCTION", "sfEquals");
+			break;
+			
+			// -- Intersects -- //
+		case 14:
+			// Line & GivenPolygon
+			label = "Intersects_LGD_GivenPolygon";
+			query = queryTemplate;
+			// query = query.replace("GRAPH1", lgd);
+			query = query.replace("ASWKT1", lgd_asWKT);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
 			break;
 			
 		default:
