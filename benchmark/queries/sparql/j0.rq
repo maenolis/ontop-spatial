@@ -1,0 +1,5 @@
+ select ?s1 ?s2 where { 
+	?s1 <http://geo.linkedopendata.gr/corine/ontology#asWKT> ?o1 . 
+	?s2 <http://geo.linkedopendata.gr/gag/ontology/asWKT> ?o2 . 
+  FILTER(<http://www.opengis.net/def/function/geosparql/sfWithin>(?o1, ?o2)).  
+} 

@@ -1,0 +1,5 @@
+ select ?s1 ?s2 where { 
+	?s1 <http://linkedgeodata.org/ontology/asWKT> ?o1 . 
+	?s2 <http://linkedgeodata.org/ontology/asWKT> ?o2 . 
+  FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?o1, ?o2)).  
+} 

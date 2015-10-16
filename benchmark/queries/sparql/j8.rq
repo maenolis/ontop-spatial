@@ -1,0 +1,7 @@
+select ?s1 ?s2 where { 
+	?s1 <http://linkedgeodata.org/ontology/asWKT> ?o1 . 
+?s1 rdf:type <http://linkedgeodata.org/ontology/Road> . 
+	?s2 <http://linkedgeodata.org/ontology/asWKT> ?o2 . 
+?s2 rdf:type <http://linkedgeodata.org/ontology/Road> . 
+ FILTER(<http://www.opengis.net/def/function/geosparql/sfCrosses>(?o1, ?o2)).  
+} 
