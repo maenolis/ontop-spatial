@@ -79,10 +79,8 @@ public class SesameVirtualGisatTest extends TestCase {
 			
 			///query repo
 			 try {
-				 String spatialQuery = prefixes +  "select distinct ?name  where {" +
-				 						"?x1 cd:hasWKTGeometry ?g1 . " +
-   			 					         "?x1  rdf:type cd:mcArea ."
-   			 					       + "?x1 cd:hasName ?name ." +
+				 String spatialQuery = prefixes +  "select distinct ?x1 ?g1  where {" +
+				 						"?x1 cd:asWKT ?g1 . " +
 				 						//" ?x2 ex:hasSerialization ?g2 . " +
 				 					//	"FILTER(SpatialOverlap(?g1,?g2))" +
 				 					//	"FILTER(!sameTerm(?g1,?g2))" +
@@ -143,7 +141,7 @@ public class SesameVirtualGisatTest extends TestCase {
 	 						+"FILTER(<http://www.opengis.net/def/function/geosparql/sfContains>(?cdgeo,?uageo)) \n" 
 					 		+ "}";
 					 
-			      TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, gisat);
+			      TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, spatialQuery);
 			      FileOutputStream f = new FileOutputStream("/home/constant/ontop-kml/gisat.kml");
 				  TupleQueryResultHandler handler = new SPARQLResultsTSVWriter(System.out);
 				 // TupleQueryResultWriterFactory kml = new stSPARQLResultsKMLWriterFactory();

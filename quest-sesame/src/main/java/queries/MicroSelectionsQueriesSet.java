@@ -26,22 +26,67 @@ public class MicroSelectionsQueriesSet extends QueriesSet {
 	
 	// Template to create queries
 	private final String queryTemplate = prefixes 
-			+ "\n select ?s1 ?o1 where { \n"
+			+ "\n select ?s1  where { \n"
 			+ "	?s1 ASWKT1 ?o1 . \n"
-			+ "  FILTER(<http://www.opengis.net/def/function/geosparql/FUNCTION>(GIVEN_SPATIAL_LITERAL,?o1)). " 
+			+ "  FILTER(<http://www.opengis.net/def/function/geosparql/FUNCTION>(GIVEN_SPATIAL_LITERAL,?o1)).  \n" 
 			+ "}  \n" 
 	;
+
+	// Template to create OBDA queries with unions
+	private final String queryTemplateUnions = prefixes 
+			+ "\n select distinct ?s1  where { \n"
+			+ "	?s1 ASWKT1 ?o1 . \n"
+			+ "?s1 rdf:type ?type .\n"
+			+ "  FILTER(<http://www.opengis.net/def/function/geosparql/FUNCTION>(GIVEN_SPATIAL_LITERAL,?o1)). \n"
+			+ "FILTER( ?type >= TYPE )  \n" 
+			+ "}  \n" 
+	;
+	
+	private final String clcPlusTwo = prefixes 
+			+ "\n select ?s1  where { \n"
+			+ "	?s1 ASWKT1 ?o1 . \n"
+			+ "?s2  rdf:type clc:Area . \n "
+			+ "?s2 clc:hasLandUse ?type . "
+			+ "  FILTER(<http://www.opengis.net/def/function/geosparql/FUNCTION>(GIVEN_SPATIAL_LITERAL,?o1)).  \n" 
+			+ "}  \n" 
+	;
+	
+	
+	private final String clcPlusFour = prefixes 
+			+ "\n select ?s1 ?shape ?area where { \n"
+			+ "	?s1 ASWKT1 ?o1 . \n"
+			+ "?s2  rdf:type clc:Area . \n "
+			+ "?s2 clc:hasLandUse ?type . "
+			+ "?s2 clc:hasArea ?area . \n"
+			+ "?s2 clc:hasShapeA ?shape .\n"	
+			+ "  FILTER(<http://www.opengis.net/def/function/geosparql/FUNCTION>(GIVEN_SPATIAL_LITERAL,?o1)).  \n" 
+			+ "}  \n" 
+	;
+	
+	private final String lgdPlusTwo = prefixes 
+			+ "\n select ?s1  ?name ?type where { \n"
+			+ "	?s1 ASWKT1 ?o1 ."
+			+ "?s1 rdf:type lgd:Building . \n"
+			+ "?s1 lgd:name ?name . \n"
+			+ "?s1 lgd:type ?type . \n"
+			+ "  FILTER(<http://www.opengis.net/def/function/geosparql/FUNCTION>(GIVEN_SPATIAL_LITERAL,?o1)).  \n" 
+			+ "}  \n" ;
+
+	
+	
 
 	private String givenPolygonFile = "givenPolygon.txt";
 	private String givenLinesFile = "givenLine.txt";
 	private String givenPolygon;
+	private String bigPolygonFile = "bigpolygon.txt";
+	private String bigPolygon;
 	private String givenLine, givenLine2, givenLine3;
 	private String givenPoint;
 	private String givenRadius;
 	
 	public MicroSelectionsQueriesSet(SystemUnderTest sut) throws IOException {
 		super(sut);
-		queriesN = 15; // IMPORTANT: Add/remove queries in getQuery implies changing queriesN
+		queriesN = 24; // IMPORTANT: Add/remove queries in getQuery implies changing queriesN
 		
 		//String spatialDatatype = "<http://www.opengis.net/ont/geosparql#wktLiteral>";
 		givenPoint = "\"POINT(23.71622 37.97945)\"";
@@ -55,6 +100,15 @@ public class MicroSelectionsQueriesSet extends QueriesSet {
 		in = null;
 		is.close();
 		is = null;
+		is = getClass().getResourceAsStream("/"+bigPolygonFile);
+		in = new BufferedReader(new InputStreamReader(is));
+		bigPolygon = in.readLine();
+		bigPolygon = "\""+bigPolygon+"\"";
+		in.close();
+		in = null;
+		is.close();
+		is = null;
+		
 		is = getClass().getResourceAsStream("/"+givenLinesFile);
 		in = new BufferedReader(new InputStreamReader(is));
 		// <http://linkedgeodata.org/geometry/way168092715>
@@ -127,12 +181,12 @@ public class MicroSelectionsQueriesSet extends QueriesSet {
 			//query = query.replace("GRAPH1", gadm);
 			query = query.replace("ASWKT1", gadm_asWKT);
 			query = query.replace("GIVEN_SPATIAL_LITERAL", givenLine);
-			query = query.replace("FUNCTION", "sfEquals");
+			query = query.replace("FUNCTION", "sfCrosses");
 			break;
 
 		case 4:
 			// Polygon = GivenPolygon
-			label = "Contains_GADM_givenLine"; 
+			label = "Overlaps_GADM_givenLine"; 
 			query = queryTemplate;
 			//query = query.replace("GRAPH1", gadm);
 			query = query.replace("ASWKT1", gadm_asWKT);
@@ -187,7 +241,7 @@ public class MicroSelectionsQueriesSet extends QueriesSet {
 			//query = query.replace("GRAPH1", clc);
 			query = query.replace("ASWKT1", clc_asWKT);
 			query = query.replace("GIVEN_SPATIAL_LITERAL", givenLine);
-			query = query.replace("FUNCTION", "sfEquals");
+			query = query.replace("FUNCTION", "sfCrosses");
 			break;
 			
 
@@ -238,7 +292,7 @@ public class MicroSelectionsQueriesSet extends QueriesSet {
 			//query = query.replace("GRAPH1", clc);
 			query = query.replace("ASWKT1", clc_asWKT);
 			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
-			query = query.replace("FUNCTION", "sfEquals");
+			query = query.replace("FUNCTION", "sfCrosses");
 			break;
 			
 			// -- Intersects -- //
@@ -247,6 +301,90 @@ public class MicroSelectionsQueriesSet extends QueriesSet {
 			label = "Intersects_LGD_GivenPolygon";
 			query = queryTemplate;
 			// query = query.replace("GRAPH1", lgd);
+			query = query.replace("ASWKT1", lgd_asWKT);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
+			break;
+			
+		case 15:
+			label = "Intersects_LGD_B";
+			query = queryTemplateUnions;
+			// query = query.replace("GRAPH1", lgd);
+			query = query.replace("ASWKT1", lgd_asWKT);
+			query = query.replace("TYPE", lgd_building);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
+			break;
+			
+		case 16:
+			label = "Intersects_LGD_PL";
+			query = queryTemplateUnions;
+			// query = query.replace("GRAPH1", lgd);
+			query = query.replace("ASWKT1", lgd_asWKT);
+			query = query.replace("TYPE", lgd_place);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
+			break;
+			
+		case 17:
+			label = "Intersects_LGD_POINT";
+			query = queryTemplateUnions;
+			// query = query.replace("GRAPH1", lgd);
+			query = query.replace("ASWKT1", lgd_asWKT);
+			query = query.replace("TYPE", lgd_point);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
+			break;
+			
+		case 18:
+			label = "Intersects_LGD_LU";
+			query = queryTemplateUnions;
+			// query = query.replace("GRAPH1", lgd);
+			query = query.replace("ASWKT1", lgd_asWKT);
+			query = query.replace("TYPE", lgd_landuse);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
+			break;
+			
+		case 19:
+			label = "Intersects_LGD_ROAD";
+			query = queryTemplateUnions;
+			// query = query.replace("GRAPH1", lgd);
+			query = query.replace("ASWKT1", lgd_asWKT);
+			query = query.replace("TYPE", lgd_road);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
+			break;
+			
+		case 20:
+			label = "Intersects_LGD_bigPolygon";
+			query = queryTemplate;
+			// query = query.replace("GRAPH1", lgd);
+			query = query.replace("ASWKT1", lgd_asWKT);
+			//query = query.replace("TYPE", lgd_building);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", bigPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
+			break;
+			
+		case 21: 
+			label = "Intersects_CLC_PLUS2";
+			query = clcPlusTwo;
+			query = query.replace("ASWKT1", lgd_asWKT);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
+			break;
+
+		case 22: 
+			label = "Intersects_CLC_PLUS4";
+			query = clcPlusFour;
+			query = query.replace("ASWKT1", lgd_asWKT);
+			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
+			query = query.replace("FUNCTION", "sfIntersects");
+			break;
+			
+		case 23: 
+			label = "Intersects_LGD_PLUS2";
+			query = lgdPlusTwo;
 			query = query.replace("ASWKT1", lgd_asWKT);
 			query = query.replace("GIVEN_SPATIAL_LITERAL", givenPolygon);
 			query = query.replace("FUNCTION", "sfIntersects");

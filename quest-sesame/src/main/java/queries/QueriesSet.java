@@ -46,6 +46,8 @@ public abstract class QueriesSet {
 	protected SystemUnderTest sut;
 	protected int queriesN;
 	
+	public static String lgd_building, lgd_waterway, lgd_point, lgd_road, lgd_landuse, lgd_place, lgd_railway;
+	
 	public int getQueriesN() { return queriesN; }
 	
 	public QueriesSet(SystemUnderTest sut) {
@@ -55,7 +57,7 @@ public abstract class QueriesSet {
 		prefixes = "PREFIX clc: <http://geo.linkedopendata.gr/corine/ontology#> \n"
 				+ "PREFIX noa: <http://teleios.di.uoa.gr/ontologies/noaOntology.owl#> \n"
 				+ "PREFIX gadm: <http://www.gadm.org/ontology#> \n"
-				+ "PREFIX lgdo: <http://linkedgeodata.org/ontology/> \n"
+				+ "PREFIX lgd: <http://linkedgeodata.org/ontology/> \n"
 				+ "PREFIX geonames: <http://www.geonames.org/ontology#> \n"
 				+ "PREFIX gag: <http://geo.linkedopendata.gr/gag/ontology/> \n"
 				+ "PREFIX lgdp: <http://linkedgeodata.org/property/> \n"
@@ -92,6 +94,14 @@ public abstract class QueriesSet {
 		lgd_hasGeometry = "<http://linkedgeodata.org/ontology/hasGeometry>";
 		
 		geo_asWKT = "<http://www.opengis.net/ont/geosparql#asWKT>";
+		
+		lgd_building = "<http://linkedgeodata.org/ontology/Building>";
+		lgd_road = "<http://linkedgeodata.org/ontology/Road>";
+		lgd_place = "<http://linkedgeodata.org/ontology/Place>";
+		lgd_landuse = "<http://linkedgeodata.org/ontology/Landuse>";
+		lgd_point = "<http://linkedgeodata.org/ontology/Point>";
+		lgd_railway = "<http://linkedgeodata.org/ontology/Railway>";
+		
 	}
 	
 	public abstract QueryStruct getQuery(int queryIndex, int repetition) throws MalformedQueryException, QueryEvaluationException, TupleQueryResultHandlerException, IOException;

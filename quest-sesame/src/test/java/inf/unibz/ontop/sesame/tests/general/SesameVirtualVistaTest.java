@@ -62,7 +62,7 @@ public class SesameVirtualVistaTest extends TestCase {
 			//String owlfile = "/home/constant/Vista/urban_atlas_melod.owl";
 			//String owlfile = "/home/constant/books.owl";
 			String owlfile = "/home/constant/gisat/CityDistricts.owl";
-			String obdafile = "/home/constant/vista/vista-geo.obda";
+			String obdafile = "/home/constant/vista/vista_ftb.obda";
 			//String owlfile = 	"/home/timi/ontologies/helloworld/helloworld.owl";
 			repo = new SesameVirtualRepo("my_name", owlfile, obdafile, false, "TreeWitness");
 	
@@ -84,7 +84,10 @@ public class SesameVirtualVistaTest extends TestCase {
 					+ "PREFIX ntp: <http://melodiesproject.eu/vista/ntp/ontology#> \n"
 					+ "PREFIX twsg: <http://melodiesproject.eu/vista/twsg/ontology#> \n"
 					+ "PREFIX bpa: <http://melodiesproject.eu/vista/bpa/ontology#> \n"
-					+ "PREFIX f: <http://melodiesproject.eu/field/ontology#> \n"; 
+					+ "PREFIX f: <http://melodiesproject.eu/field/ontology#> \n"
+					+ "PREFIX clc: <http://geo.linkedopendata.gr/corine/ontology#> \n"
+					+ "PREFIX lgd: <http://linkedgeodata.org/ontology/> \n"
+					+ "PREFIX y: <http://melodiesproject.eu/vista/yield/ontology#> \n"; 
 			
 			///query repo
 			 try {
@@ -94,9 +97,22 @@ public class SesameVirtualVistaTest extends TestCase {
 				 
 				 String datatype = prefixes +  "select distinct ?g1  \n"
 				 		+ "where {" +
-	 						"?s1 f:asWKT ?g1 } "  ;
+	 						"?s1 geo:asWKT ?g1 .\n "
+					 		+ "?s1 rdf:type y:Field .  "
+	 						+ "} limit 10 "  ;
 				 
-				 String fieldsInBiotops =  prefixes +  "select distinct ?s2  where { \n" +
+				 String ftb = prefixes + "select distinct ?type ?g1  \n"
+				 		+ " where { \n"
+				 		+ "?s1 geo:asWKT ?g1 ."
+				 		+ "?s1 rdf:type y:Field .  "
+				 		+ "?s2 geo:asWKT ?g2 . "
+				 		+ "?s2 rdf:type ?type ."
+				 		+ "?s1 y:hasTFBValue ?tfb ."
+				 		+ "filter (SpatialOverlap(?g1, ?g2)) ."
+				 		+ "filter (?tfb < 0)"
+				 		+ "}";
+				 
+				 String fieldsInBiotops =  prefixes +  "select distinct ?s1   where { \n" +
 	 						"?s1 f:asWKT ?g1 . " +
 	 						 "?s1 rdf:type f:Field ." +
 	 						 "?s2 rdf:type bio:Biotope ." +
@@ -172,7 +188,7 @@ public class SesameVirtualVistaTest extends TestCase {
 
 					 
 				 
-			      TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, fieldsInBpa);
+			      TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, ftb);
 			      FileOutputStream f = new FileOutputStream("/home/constant/ontop-kml/Vista.kml");
 				  TupleQueryResultHandler handler = new SPARQLResultsTSVWriter(System.out);
 				  //TupleQueryResultWriterFactory kml = new stSPARQLResultsKMLWriterFactory();

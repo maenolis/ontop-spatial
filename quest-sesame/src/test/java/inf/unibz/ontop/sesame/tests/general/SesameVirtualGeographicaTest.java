@@ -69,7 +69,7 @@ public class SesameVirtualGeographicaTest extends TestCase {
 		try {
 			
 			String owlfile = "/home/constant/books.owl";
-			String obdafile = "/home/constant/mappings-ontop/geographica-real.obda";
+			String obdafile = "/home/constant/geographica/mappings/geographica-real.obda";
 			//String owlfile = 	"/home/timi/ontologies/helloworld/helloworld.owl";
 			repo = new SesameVirtualRepo("my_name", owlfile, obdafile, false, "TreeWitness");
 	
@@ -124,13 +124,68 @@ public class SesameVirtualGeographicaTest extends TestCase {
 			GIVEN_POLYGON_IN_WKT = givenPolygon;
 			///query repo
 			 try {
-				 String join0 = prefixes +  "select distinct ?name  where { \n" +
+				 
+					
+					 String gadm_clc_extra = prefixes 
+							+ "\n select distinct ?s1 ?s2 where { \n"
+							+ "	?s1 gag:asWKT ?o1 . \n"
+							+ "	?s2 clc:asWKT ?o2 . \n"
+							+ "?s2  rdf:type clc:Area . \n "
+							+ "?s2 clc:hasLandUse ?type . "
+							+ "?s2 clc:hasArea ?area . \n"
+							+ "?s2 clc:hasShapeA ?shape .\n"		
+							+ "  FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?o1, ?o2)).  \n"
+							+ "} limit 10\n"
+							;
+					
+						
+					 String clc = prefixes 
+							+ "\n select distinct ?p where { \n"
+							+ "	?s1 ?p ?o . \n"
+							+ "	?s1 clc:asWKT ?o2 . \n"
+						//	+ "?s2 ?p ?o . \n "
+							+ "?s2 rdf:type clc:Area . "
+							+ "?s2 clc:hasLandUse ?type  . \n"
+						//	+ "?s2 clc:hasArea ?area . \n"
+						//	+ "?s2 clc:hasShapeA ?shape .\n"		
+						//	+ "  FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?o1, ?o2)).  \n"
+							+ "} \n"
+							;
+					 
+					 String lgd_building_gadm = prefixes 
+							+ "\n select ?s1 ?s2 where { \n"
+							+ "	?s1 lgd:asWKT ?o1 . \n"
+							+ "	?s2 gag:asWKT ?o2 . \n "
+							+ "?s1 rdf:type lgd:Building . \n"
+							+ "?s1 lgd:name ?name . \n"
+							+ "?s1 lgd:type ?type . \n"
+							+ "  FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?o1, ?o2)).  \n"
+							+ "} \n"
+							;	
+					
+				 
+				 String geometries = prefixes + "select distinct ?g where { \n"
+				 		+ "?s gag:asWKT ?g . \n"
+				 		+ "} limit 10";
+				 
+				 		
+				 		String join0 = prefixes +  "select distinct ?name  where { \n" +
 				 						"SELECT ?s1 ?s2 \n"
 				 						+ "WHERE { "
 				 						+ "	?s1 geonames:asWKT ?o1 . \n"
 				 						+ "?s2 dbpedia:asWKT ?o2 . \n"
 				 						+ "FILTER(<http://www.opengis.net/def/function/geosparql/sfEquals>(?o1, ?o2)). \n";
-				 						
+				 			
+				 String plain = prefixes 
+						 + "SELECT distinct  ?type  \n"
+						 + "WHERE { "
+						 + "?s1 geo:asWKT ?o1 ."
+						 + "?s1 rdf:type ?type . \n"
+						 + "	FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>( " + GIVEN_POLYGON_IN_WKT + ", ?o1)). "
+						 + "FILTER(?type >= lgd:Landuse  )\n"
+						 + "} "
+						 + "limit 10";
+						 
 				 
 				 String join1 = prefixes 
 						 + "SELECT ?s1 ?s2 \n"
@@ -141,70 +196,6 @@ public class SesameVirtualGeographicaTest extends TestCase {
 	 						"}\n";
 				
 
-				 String join2 = prefixes
-						 +"SELECT ?s1 ?s2\n"
-						 + "WHERE { \n"
-						 + "	?s1 geonames:asWKT ?o1 . \n"
-						 + "    ?s2 gag:asWKT ?o2 . \n"
-						 + "FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?o1, ?o2)).  \n" +
-	 						"} \n";
-				 
-				 String join3 = prefixes + 
-						 "SELECT ?s1 ?s2 \n"
-						 + "WHERE { \n"
-						 + "?s1 lgd:asWKT ?o1 . \n"
-						 + "?s2 gag:asWKT ?o2 . \n"
-						 + "FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?o1, ?o2)).  \n" +
-	 						"}\n";
-				 
-				 String join4 = prefixes
-						 + "SELECT ?s1 ?s2\n"
-						 + "WHERE { \n"
-						 + "?s1 geonames:asWKT ?o1 . \n"
-						 + "?s2 gag:asWKT ?o2 . \n"
-						 + "	FILTER(<http://www.opengis.net/def/function/geosparql/sfWithin>(?o1, ?o2)).  \n" +
-	 						"}\n";
-				 
-				 String join5 = prefixes
-						 + "SELECT ?s1 ?s2 \n"
-						 + "WHERE { \n"
-						 + "?s1 lgd:asWKT ?o1 . \n"
-						 + "?s2 gag:asWKT ?o2 . \n"
-						 + "FILTER(<http://www.opengis.net/def/function/geosparql/sfWithin>(?o1, ?o2)). \n " +
-	 						"}";
-				 
-				 String join6 = prefixes
-						 + "SELECT ?s1 ?s2 \n"
-						 + "WHERE { \n"
-						 + "?s1 clc:asWKT ?o1 . \n"
-						 + "?s2 gag:asWKT ?o2 . \n"
-						 + "FILTER(<http://www.opengis.net/def/function/geosparql/sfWithin>(?o1, ?o2)).  \n" +
-	 						"} \n";
-				 
-				 String join7 = prefixes  
-						 + "SELECT ?s1 ?s2 \n"
-						 + "WHERE { \n"
-						 + "?s1 lgd:asWKT ?o1 . \n"
-						 + "?s2 gag:asWKT ?o2 . \n"
-						 + "FILTER(<http://www.opengis.net/def/function/geosparql/sfCrosses>(?o1, ?o2)).  \n" +
-	 						"} \n";
-				 
-				 String join8 = prefixes
-						 + "SELECT ?s1 ?s2 \n"
-						 + "WHERE { \n"
-						 + "?s1 gag:asWKT ?o1 . \n"
-						 + "?s2 gag:asWKT ?o2 . \n"
-						 + "FILTER(?s1 != ?s2). \n"
-						 + "FILTER(<http://www.opengis.net/def/function/geosparql/sfTouches>(?o1, ?o2)).  \n" +
-	 						"} \n";
-				 
-				 String join9 = prefixes
-						 + "SELECT ?s1 ?s2 \n"
-						 + "WHERE { \n"
-						 + "?s1 gag:asWKT ?o1 . \n"
-						 + "?s2 clc:asWKT ?o2 . \n"
-						 + "FILTER(<http://www.opengis.net/def/function/geosparql/sfOverlaps>(?o1, ?o2)). \n " +
-	 						"} \n";
 				 
 				 String selection0 = prefixes
 						 + "SELECT ?s1 ?o1 \n"
@@ -213,225 +204,11 @@ public class SesameVirtualGeographicaTest extends TestCase {
 						 + "	FILTER(<http://www.opengis.net/def/function/geosparql/sfEquals>(?o1, "+ GIVEN_LINE_IN_WKT +" )). \n"
 						 		+ "}  \n";
 				 
-				 String selection1 = prefixes
-						 + "SELECT ?s1 ?o1 \n"
-						 + "WHERE { \n"
-						 + "	?s1 gag:asWKT ?o1 . \n"
-						 + "	FILTER(<http://www.opengis.net/def/function/geosparql/sfEquals>( " + GIVEN_POLYGON_IN_WKT + ", ?o1)). \n"
-						 		+ " }\n";
-				 
-				 String selection2 = prefixes
-						 + "SELECT ?s1 ?o1 \n"
-						 + "WHERE { \n"
-						 + "	?s1 lgd:asWKT ?o1 . \n"
-						 + "	FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?o1, " + GIVEN_POLYGON_IN_WKT + ")). \n"
-						 		+ "} \n";
 
-				 String selection3 = prefixes
-						 + "SELECT ?s1 ?o1 \n"
-						 + "WHERE { \n"
-						 + "?s1 clc:asWKT ?o1 . \n"
-						 + "FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>( " +  GIVEN_LINE_IN_WKT + ", ?o1)). \n"
-						 		+ "} \n";
-						 
-				String selection4 = prefixes
-						+ "SELECT ?s1 ?o1 \n"
-						+ "WHERE {  \n"
-						+ "	?s1 clc:asWKT ?o1 . \n"
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfOverlaps>( " + GIVEN_POLYGON_IN_WKT + ", ?o1)).\n"
-								+ "}\n";
-				
-				String selection5 = prefixes
-						+"SELECT ?s1 ?o1 \n"
-						+ "WHERE { \n"
-						+ "?s1 lgd:asWKT ?o1 . \n"
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfCrosses>(?o1, " + GIVEN_LINE_IN_WKT + ")). \n"
-								+ "} \n";
-				
-				String selection6 = prefixes
-						+ "SELECT ?s1 ?o1 \n"
-						+ "WHERE { \n"
-						+ "	?s1 geonames:asWKT ?o1 . \n"
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfWithin>(?o1, " + GIVEN_POLYGON_IN_WKT + ")). \n"
-								+ "}  \n";
-				
-				String selection7 = prefixes
-						+ "SELECT ?s1 \n"
-						+ "WHERE { \n"
-						+ "	?s1 geonames:asWKT ?o1 . \n"
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfWithin>(?o1, geof:buffer(" + GIVEN_POINT_IN_WKT + ", 3000, opengis:metre))). \n "
-								+ "} \n";
-				
-				String selection8 = prefixes
-						+ "SELECT ?s1 \n"
-						+ "WHERE { \n"
-						+ "	?s1 geonames:asWKT ?o1 . \n "
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/distance>(?o1, " + GIVEN_POINT_IN_WKT + ", opengis:metre) <= 3000).  \n"
-								+ "} \n";
-				
-				String selection9 = prefixes 
-						+ "SELECT ?s1 ?o1 \n"
-						+ "WHERE { \n"
-						+ "	?s1 geonames:asWKT ?o1 . \n"
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfDisjoint>(?o1, " + GIVEN_POLYGON_IN_WKT + ")). \n"
-								+ "} \n ";
-				
-				String selection10 = prefixes
-						+ "SELECT ?s1 ?o1 \n"
-						+ "WHERE { \n"
-						+ "	?s1 lgd:asWKT ?o1 . \n"
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfDisjoint>(?o1, " + GIVEN_POLYGON_IN_WKT + ")). \n"
-								+ "} \n";
-				
-				
-				String nontop0 = prefixes
-						+ "SELECT (<http://www.opengis.net/def/function/geosparql/boundary>(?o1) AS ?ret) \n"
-						+ "WHERE { \n"
-						+ "	?s1 clc:asWKT ?o1 }\n ";
-				
-				String nontop1 = prefixes
-						+ "SELECT (<http://www.opengis.net/def/function/geosparql/envelope>(?o1) AS ?ret) \n"
-						+ "WHERE { \n"
-						+ "	?s1 clc:asWKT ?o1 \n"
-						+ "} \n ";
-				
-				String nontop2 = prefixes
-						+ "SELECT (<http://www.opengis.net/def/function/geosparql/convexHull>(?o1) AS ?ret) \n"
-						+ "WHERE { \n"
-						+ "	?s1 clc:asWKT ?o1 \n"
-						+ "} \n";
-				
-				String nontop3 = prefixes
-						+ "SELECT (<http://www.opengis.net/def/function/geosparql/buffer>(?o1, 4, opengis:metre) AS ?ret) \n"
-						+ "WHERE { \n"
-						+ "  ?s1 geonames:asWKT ?o1 \n"
-						+ "} \n";
-				
-				String nontop4 = prefixes
-						+ "SELECT (<http://www.opengis.net/def/function/geosparql/buffer>(?o1, 4, opengis:metre) AS ?ret) \n"
-						+ "WHERE { \n"
-						+ "	?s1 lgd:asWKT ?o1 \n"
-						+ "} \n";
-				
-				String nontop5 = prefixes
-						+ "SELECT (<http://www.opengis.net/def/function/geosparql/area>(?o1) as ?ret) \n"
-						+ "WHERE { \n"
-						+ "	?s1 clc:asWKT ?o1 \n"
-						+ "} \n";
-				
-				String rapidmapping0 = prefixes
-						+ "SELECT  ?a  ?aGeoWKT \n"
-						+ "WHERE { \n"
-						+ "?a rdf:type clc:Area."
-						+ "?a clc:hasID ?aID."
-						+ "	?a clc:hasLandUse ?aLandUse."
-	//					+ "	?a clc:hasGeometry ?aGeo."
-						+ "		?a clc:asWKT ?aGeoWKT. "
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>( "+  GIVEN_POLYGON_IN_WKT + ", ?aGeoWKT))"
-								+ "}";
-				
-				String rapidmapping1 = prefixes
-						+ "SELECT ?r ?rName ?rGeoWKT"
-						+ "WHERE { "
-						+ "		?r rdf:type lgd:HighwayThing."
-						+ "		?r rdfs:label ?rName."
-						+ "		?r lgd:hasGeometry ?rGeo."
-						+ "		?rGeo lgd:asWKT ?rGeoWKT."
-						+ "		FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?rGeoWKT, " + GIVEN_POLYGON_IN_WKT + "^^geo:wktLiteral))"
-								+ "} ";
-				
-				String rapidmapping2 = prefixes
-						+ "SELECT (geof:boundary(?gGeoWKT) as ?boundary) ?gLabel "
-						+ "WHERE { "
-						+ "	?g rdf:type gag:Municipality."
-						+ "	?g rdfs:label ?gLabel."
-						+ "	?g gag:hasGeometry ?gGeo."
-						+ "	?gGeo gag:asWKT ?gGeoWKT."
-						+ "		FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?gGeoWKT, " + GIVEN_POLYGON_IN_WKT + "^^geo:wktLiteral))"
-								+ "} ";
-				
-				String rapidmapping3 = prefixes
-						+ "SELECT  ?h \n"
-						+ "WHERE {  "
-						+ "?h rdf:type noa:Hotspot."
-						+ "	?h noa:isDerivedFromSensor ?sensor."
-						+ "	?h noa:hasConfidence ?confidence."
-						+ "	?h noa:isProducedBy ?producer."
-						+ "?h noa:isDerivedFromSatellite ?satellite."
-						+ "	?h noa:producedFromProcessingChain ?chain."
-						+ "	?h noa:hasConfirmation ?confirmation ."
-						+ "?h noa:hasAcquisitionTime \"2007-09-30T11:30:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> ."
-						+ "		?h noa:hasGeometry ?geometry. "
-						+ "	OPTIONAL {?h noa:refinedBy ?r} "
-						+ "		FILTER(!bound(?r)) ."
-				//	+"?h noa:hasAcquisitionTime ?o ."
-						+ "		?h noa:asWKT ?wkt . " //CHANGED THIS
-						+ "		FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>( " + GIVEN_POLYGON_IN_WKT + " , ?wkt))"
-								+ "}";
-				
-				String rapidmapping4 = prefixes
-						+"SELECT distinct ?a \n"
-						+ "WHERE { \n"
-						+ "		?h rdf:type noa:Hotspot."
-					  + "		?h noa:hasGeometry ?hGeo."
-						+ "		?h noa:hasAcquisitionTime " + TIMESTAMP + "^^xsd:dateTime. "
-								+ "	?h noa:asWKT ?hWKT. " //CHANGED THIS!
-								+ "	?a rdf:type clc:Area."
-								+ "	?a clc:hasGeometry ?aGeo."
-								+ "?a clc:hasLandUse clc:ConiferousForest. "
-								+ "	?a clc:asWKT ?aWKT. "
-								+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?hWKT, ?aWKT)) . "
-								+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>( " + GIVEN_POLYGON_IN_WKT + ", ?aWKT))"
-										+ "} limit 10";
-				
-				String rapidmapping5 = prefixes
-						+"SELECT ?r (geof:difference(?rWKT, ?hWKT) as ?diff) "
-						+ "WHERE { "
-						+ "		?h rdf:type noa:Hotspot."
-						+ "	?h noa:hasGeometry ?hGeo."
-						+ "		?h noa:hasAcquisitionTime ?hAcqTime. "
-						+ "		?hGeo noa:asWKT ?hWKT. "
-						+ "		?r rdf:type lgd:HighwayThing."
-						+ "		?r lgd:hasGeometry ?rGeo."
-						+ "	?rGeo lgd:asWKT ?rWKT. "
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?rWKT, ?hWKT)) .  "
-						+ "	FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?rWKT, " + GIVEN_POLYGON_IN_WKT + "^^geo:wktLiteral))"
-								+ "} ";
-				
-				String 	mapsearch0 = prefixes
-						+ "SELECT ?f ?name ?geo ?wkt"
-						+ "WHERE { "
-						+ "	?f geonames:name ?name."
-						+ "	?f geonames:hasGeometry ?geo."
-						+ "	?geo geonames:asWKT ?wkt."
-						+ "		FILTER(?name = " + TOPONYME + "^^xsd:string) "
-								+ "}";
-				
-				String mapsearch1 = prefixes
-						+ "SELECT ?f ?name ?fGeo ?code ?parent ?class ?fGeoWKT"
-						+ "WHERE { "
-						+ "	?f geonames:name ?name. "
-						+ "	?f geonames:hasGeometry ?fGeo."
-						+ "	?f geonames:featureCode ?code."
-						+ "		?f geonames:parentFeature ?parent."
-						+ "		?f geonames:featureClass ?class. "
-						+ "		?fGeo geonames:asWKT ?fGeoWKT. "
-						+ "		FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?fGeoWKT, " + GIVEN_RECTANGLE_IN_WKT + "^^geo:wktLiteral))."
-								+ "} ";
-				
-				String mapsearch2 = prefixes
-						+ "SELECT ?r ?label ?rGeo ?rGeoWKT"
-						+ "WHERE { "
-						+ "		?r rdf:type ?type. "
-						+ "		OPTIONAL{ ?r rdfs:label ?label }. "
-						+ "		?r lgd:hasGeometry ?rGeo. "
-						+ "		?rGeo lgd:asWKT ?rGeoWKT. "
-						+ "		FILTER(<http://www.opengis.net/def/function/geosparql/sfIntersects>(?rGeoWKT, " + GIVEN_RECTANGLE_IN_WKT + "^^geo:wktLiteral))."
-								+ "}";
 				
 				//System.out.println("Query: " +  selection1);
 						
-				 TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, rapidmapping4);
+				 TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, gadm_clc_extra);
 			      
 				 TupleQueryResultHandler handler = new SPARQLResultsTSVWriter(System.out);
 				  

@@ -66,6 +66,7 @@ public class OntopSpatialSUT implements SystemUnderTest {
 
 		try {
 			repo = new SesameVirtualRepo("my_name", owlfile, obdafile, false, "TreeWitness");
+			repo.initialize();
 		} catch (Exception e) {
 			logger.fatal("Cannot initialize Ontop");
 			StringWriter sw = new StringWriter();
@@ -81,10 +82,11 @@ public class OntopSpatialSUT implements SystemUnderTest {
 		private long[] returnValue;
 		private BindingSet firstBindingSet;
 		
-		public Executor(String query, Repository repo, int timeoutSecs) {
+		public Executor(String query, Repository repo, int timeoutSecs) throws RepositoryException {
 			this.query = query;
 			this.repo = repo;
 			this.returnValue = new long[]{timeoutSecs+1, timeoutSecs+1, timeoutSecs+1, -1};
+			this.repo.initialize();
 		}
 		public long[] getRetValue() {return returnValue;}
 		public BindingSet getFirstBindingSet() {return firstBindingSet;}
@@ -111,6 +113,7 @@ public class OntopSpatialSUT implements SystemUnderTest {
 		public void runQuery() throws MalformedQueryException, QueryEvaluationException, TupleQueryResultHandlerException, IOException, RepositoryException {
 
 			logger.info("Evaluating query...");
+			repo.initialize();
 			TupleQuery tupleQuery = repo.getConnection().prepareTupleQuery(QueryLanguage.SPARQL, query);
 		    tupleQuery.evaluate();
 
@@ -137,7 +140,7 @@ public class OntopSpatialSUT implements SystemUnderTest {
 	}
 	
 
-	public long[] runQueryWithTimeout(String query, int timeoutSecs) {
+	public long[] runQueryWithTimeout(String query, int timeoutSecs) throws RepositoryException {
         //maintains a thread for executing the doWork method
         final ExecutorService executor = Executors.newFixedThreadPool(1);
         //set the executor thread working
@@ -224,12 +227,13 @@ public class OntopSpatialSUT implements SystemUnderTest {
 
 	public void restart() {
 		
-		String[] restart_postgres = {"/bin/sh", "-c" , "\"echo \"anylatdi \" | sudo -S service postgresql restart\""};
+		String[] restart_postgres = {"/bin/sh", "-c" , "echo  \"anylatdi\" |  sudo -S  /usr/sbin/service postgresql restart"};
+
 
     	Process pr;
     	
 		try {
-			logger.info("Restarting Strabon (Postgres) ...");
+			logger.info("Restarting Ontop (Postgres) ...");
 
 	    	pr = Runtime.getRuntime().exec(restart_postgres);
 			pr.waitFor();
@@ -251,7 +255,8 @@ public class OntopSpatialSUT implements SystemUnderTest {
 			}	
 			firstBindingSet = null;
 			repo = new SesameVirtualRepo("my_name", owlfile, obdafile, false, "TreeWitness");
-			logger.info("Strabon (Postgres) restarted");
+			repo.initialize();
+			logger.info("Ontop (Postgres) restarted");
 		} catch (Exception e) {
 			logger.fatal("Cannot restart Strabon");
 			StringWriter sw = new StringWriter();
@@ -263,16 +268,16 @@ public class OntopSpatialSUT implements SystemUnderTest {
 	
 	public void clearCaches() {
 		
-		String[] stop_postgres = {"/bin/sh", "-c" , "\"echo \"anylatdi \" | sudo -S service postgresql stop\""};
-    	String[] clear_caches = {"/bin/sh", "-c" , "\"echo \"anylatdi \" | sync && echo 3 > sudo -S /proc/sys/vm/drop_caches\""};
-    	String[] start_postgres = {"/bin/sh", "-c" , "\"echo \"anylatdi \" | sudo -S  service postgresql start\""};
+		String[] stop_postgres = {"/bin/sh", "-c" , " echo \"anylatdi\" | sudo -S service postgresql stop"};
+    	String[] clear_caches = {"/bin/sh", "-c" , " echo \"anylatdi\" | sync && echo 3 > sudo -S /proc/sys/vm/drop_caches"};
+    	String[] start_postgres = {"/bin/sh", "-c" , " echo \"anylatdi\" | sudo -S  service postgresql start"};
 
     	Process pr;
     	
 		try {
 			logger.info("Clearing caches...");
 
-	    	pr = Runtime.getRuntime().exec("echo \"anylatdi \" | sudo -S service postgresql stop");
+	    	pr = Runtime.getRuntime().exec(stop_postgres);
 			pr.waitFor();
 			System.out.println(pr.exitValue());
 			if ( pr.exitValue() != 0) {
@@ -280,7 +285,7 @@ public class OntopSpatialSUT implements SystemUnderTest {
 			}
 //			System.in.read();
 			 
-	    	pr = Runtime.getRuntime().exec("echo \"anylatdi \" | sync && echo 3 > sudo -S /proc/sys/vm/drop_caches");
+	    	pr = Runtime.getRuntime().exec(clear_caches);
 			pr.waitFor();
 			System.out.println(pr.exitValue());
 			if ( pr.exitValue() != 0) {
@@ -288,7 +293,7 @@ public class OntopSpatialSUT implements SystemUnderTest {
 			}
 //			System.in.read();
 			
-			pr = Runtime.getRuntime().exec("echo \"anylatdi \" | sudo -S  service postgresql start");
+			pr = Runtime.getRuntime().exec(start_postgres);
 			pr.waitFor();
 			System.out.println(pr.exitValue());
 			if ( pr.exitValue() != 0) {
