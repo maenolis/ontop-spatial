@@ -85,7 +85,7 @@
 			<version>${project.version}</version>
 		</dependency>
 		
-		
+	 	
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>ontop-obdalib-sesame</artifactId>
@@ -196,6 +196,9 @@
 		<dependency>
 			<groupId>org.openrdf.sesame</groupId>
 			<artifactId>sesame-query</artifactId>
+		</dependency>		<dependency>
+			<groupId>org.openrdf.sesame</groupId>
+			<artifactId>sesame-repository-manager</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.openrdf.sesame</groupId>
@@ -210,6 +213,11 @@
 			<artifactId>sesame-queryparser-sparql</artifactId>
 		</dependency>
 		<dependency>
+		<groupId>org.openrdf.sesame</groupId>
+		<artifactId>sesame-runtime-osgi</artifactId>
+		<version>2.7.0-beta2</version>
+</dependency>
+		<dependency>
 			<groupId>org.openrdf.sesame</groupId>
 			<artifactId>sesame-queryresultio-api</artifactId>
 		</dependency>
@@ -220,6 +228,11 @@
 		<dependency>
 			<groupId>org.openrdf.sesame</groupId>
 			<artifactId>sesame-repository-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openrdf.sesame</groupId>
+			<artifactId>sesame-repository-http</artifactId>
+		    <version>2.7.10</version>			
 		</dependency>
 		<dependency>
 			<groupId>org.openrdf.sesame</groupId>
@@ -258,9 +271,51 @@
 	   		<artifactId>jsqlparser</artifactId>
 		</dependency>
 		<dependency>
+    <groupId>bsh</groupId>
+    	<artifactId>bsh</artifactId>
+   	 <version>1.3.0</version>
+	</dependency>
+	<dependency>
+    <groupId>org.glassfish.main.common</groupId>
+    <artifactId>common-util</artifactId>
+    <version>3.1.2</version>
+</dependency>
+		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>
+		<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>2.5</version>
+</dependency>
+<dependency>
+    <groupId>com.sun.enterprise</groupId>
+    <artifactId>hk2-core</artifactId>
+    <version>1.6.9</version>
+</dependency>
+<dependency>
+    <groupId>org.glassfish.hk2</groupId>
+    <artifactId>auto-depends</artifactId>
+    <version>2.0.0</version>
+</dependency>
+<dependency>
+    <groupId>backport-util-concurrent</groupId>
+    <artifactId>backport-util-concurrent-java12</artifactId>
+    <version>3.1</version>
+</dependency>
+<!-- http://mvnrepository.com/artifact/cglib/cglib -->
+<dependency>
+    <groupId>cglib</groupId>
+    <artifactId>cglib-nodep</artifactId>
+    <version>2.2.2</version>
+</dependency>
+<dependency>
+    <groupId>cglib</groupId>
+    <artifactId>cglib</artifactId>
+    <version>3.1</version>
+</dependency>
+
 	</dependencies>
 
 
@@ -354,13 +409,29 @@
 						<Export-Package>it.unibz.krdb.obda.protege4.*</Export-Package>
 						<Import-Package>it.unibz.krdb.obda.protege4.*,
 							!org.json,
-							!org.codehaus.groovy.*,
+							!org.codehaus.*,
+							!org.jruby.*,
+							!net.sf.cglib.asm.*,
+                            !org.aspectj.weaver.*,                                							
+                            !org.apache.*,
+							!org.aopalliance.*,
+							!oracle.classloader.*,
+							!org.antlr.*,
 							!groovy.*,
-							javax.xml.datatype, javax.swing.*,
+							!sun.*,
+							!org.jvnet.hk2.*,
+							!org.junit.*,
+							!org.springframework.*,
+							javax.swing.*,
+							javax.xml.datatype,
+							javax.sql.*,
 							javax.accessibility,
 							javax.naming.*,javax.management.*,javax.sql.*,
 							javax.xml.parsers.*,org.xml.sax.*,
+							!javax.*,
 							it.unibz.krdb.obda.*,
+							!org.objectweb.*,
+							!org.glassfish.*,
 							org.protege.osgi.jdbc, org.protege.osgi.*,
 							uk.ac.manchester.*,
 							org.protege.*,
@@ -373,13 +444,16 @@
 							org.openrdf.query.algebra*,
 							org.openrdf.query.resultio.*,
 							org.openrdf.rio.n3*,
-							info.aduna.*,
+							!org.glassfish.api,*,
+							!org.aopalliance.*,
+							org.openrdf.repository.http.*,
+							!info.aduna.*,
 							info.aduna.commons.*,
 							!au.com.bytecode.opencsv*,
 							!com.touchgraph*,
 							!org.codehaus.janino, org.codehaus.*
 							!org.w3c.dom*,
-							!org.xml.*,!sun.*,!jena.*, !junit.*, !org.antl*,
+							!org.xml.*,!jena.*, !junit.*, !org.antl*,
 							!org.apache*,
 							!org.ietf.*, !javax.*, !com.hp.*,
 							!arq*, !antlr*,
