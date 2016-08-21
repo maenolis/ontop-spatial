@@ -12,10 +12,10 @@
 ########################################################################################################################
 
 # location for the build ROOT folder
-export BUILD_ROOT=/build/ontop
+export BUILD_ROOT=/home/maenolis/git/spatialOntop/ontop-spatial
 
 # location for the build dependencies home 
-export ONTOP_DEP_HOME=/build/dependencies
+export ONTOP_DEP_HOME=/home/maenolis/ontopBuilds/dependencies
 
 #------------------------------------------# 
 # DO NOT touch the following command lines #
