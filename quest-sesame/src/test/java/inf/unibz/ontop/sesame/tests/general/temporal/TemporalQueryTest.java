@@ -1,4 +1,4 @@
-package inf.unibz.ontop.sesame.tests.general;
+package inf.unibz.ontop.sesame.tests.general.temporal;
 
 /*
  * #%L
@@ -20,40 +20,19 @@ package inf.unibz.ontop.sesame.tests.general;
  * #L%
  */
 
-import it.unibz.krdb.obda.owlrefplatform.core.QuestConstants;
-import it.unibz.krdb.obda.owlrefplatform.core.QuestPreferences;
-import junit.framework.TestCase;
-import org.openrdf.model.impl.TreeModel;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResultHandler;
 import org.openrdf.query.resultio.text.tsv.SPARQLResultsTSVWriter;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.Rio;
-import org.openrdf.rio.helpers.StatementCollector;
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.util.AutoIRIMapper;
-import sesameWrapper.SesameVirtualRepo;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.URL;
+import junit.framework.TestCase;
+import sesameWrapper.SesameVirtualRepo;
 
 public class TemporalQueryTest extends TestCase {
 
-
-
-	public void test() throws Exception
-	{
-
+	public void test() throws Exception {
 
 		//create a sesame repository
 		RepositoryConnection con = null;
@@ -72,7 +51,7 @@ public class TemporalQueryTest extends TestCase {
 			String prefixes = "prefix ex: <http://meraka/moss/exampleBooks.owl#> \n "
 					+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
 					+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n"
-					+ "PREFIX : <http://www.semanticweb.org/ontologies/2011/4/HelloWorld.owl#> \n" ;
+					+ "PREFIX : <http://www.semanticweb.org/ontologies/2011/4/HelloWorld.owl#> \n";
 
 			///query repo
 			try {
@@ -87,18 +66,13 @@ public class TemporalQueryTest extends TestCase {
 
 				con.close();
 
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-
 
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-
 
 		System.out.println("Done.");
 	}
