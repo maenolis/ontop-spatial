@@ -1,0 +1,26 @@
+[PrefixDeclaration]
+xsd:		http://www.w3.org/2001/XMLSchema#
+owl:		http://www.w3.org/2002/07/owl#
+owl2xml:		http://www.w3.org/2006/12/owl2-xml#
+quest:		http://obda.org/quest#
+:		http://www.semanticweb.org/ontologies/2011/4/HelloWorld.owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+
+[SourceDeclaration]
+sourceUri	endpoint
+connectionUrl	jdbc:postgresql://localhost:5432/endpoint
+username	postgres
+password	postgres
+driverClass	org.postgresql.Driver
+
+[MappingDeclaration] @collection [[
+mappingId	M:0
+target		:Person-{pid} a :Person . 
+source		select pid from person
+
+mappingId	M:1
+target		:Person-{pid} :fullName {fullname} . 
+source		select pid, fullname from person
+]]
+
