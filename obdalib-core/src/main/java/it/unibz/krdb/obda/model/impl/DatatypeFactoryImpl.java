@@ -34,7 +34,8 @@ public class DatatypeFactoryImpl implements DatatypeFactory {
 	private final DatatypePredicate XSD_BOOLEAN;
 	private final DatatypePredicate XSD_DATE, XSD_TIME, XSD_YEAR;
 	private final DatatypePredicate  GEOSPARQL_WKT;
-	
+	private final DatatypePredicate  TEMPORAL;
+
 	private final Map<String, COL_TYPE> mapURItoCOLTYPE = new HashMap<>();
 	private final Map<COL_TYPE, URI> mapCOLTYPEtoURI = new HashMap<>();
 	private final Map<COL_TYPE, DatatypePredicate> mapCOLTYPEtoPredicate = new HashMap<>();
@@ -63,6 +64,7 @@ public class DatatypeFactoryImpl implements DatatypeFactory {
 		XSD_INT = registerType(XMLSchema.INT, COL_TYPE.INT);  // 19 "http://www.w3.org/2001/XMLSchema#int"
 		XSD_UNSIGNED_INT = registerType(XMLSchema.UNSIGNED_INT, COL_TYPE.UNSIGNED_INT);   // 20 "http://www.w3.org/2001/XMLSchema#unsignedInt"
 		GEOSPARQL_WKT = registerType(new ValueFactoryImpl().createURI(OBDAVocabulary.GEOSPARQL_WKT_LITERAL_DATATYPE), COL_TYPE.GEOMETRY);
+		TEMPORAL = registerType(factory.createURI(OBDAVocabulary.TEMPORAL_DATATYPE), COL_TYPE.TEMPORAL);
 
 		
 		// special case

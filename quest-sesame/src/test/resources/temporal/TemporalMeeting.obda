@@ -1,0 +1,31 @@
+[PrefixDeclaration]
+xsd:		http://www.w3.org/2001/XMLSchema#
+owl:		http://www.w3.org/2002/07/owl#
+owl2xml:	http://www.w3.org/2006/12/owl2-xml#
+quest:		http://obda.org/quest#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+strdf:		http://www.semanticweb.org/ontologies/2011/4/TemporalMeeting.owl#
+
+[SourceDeclaration]
+sourceUri	endpoint
+connectionUrl	jdbc:postgresql://localhost:5432/endpoint
+username	postgres
+password	postgres
+driverClass	org.postgresql.Driver
+
+[MappingDeclaration] @collection [[
+mappingId	Temporal Meeting
+target		strdf:Meeting/{id} a strdf:Meeting ; strdf:hasId {id} ; strdf:hasName {name} ; strdf:hasLocation {location} ; strdf:hasPeriod {duration} ; strdf:hasSerialization strdf:Period/{id}.
+source		select id, name, location, duration from meeting
+
+mappingId	Temporal Period has period
+target		strdf:Period/{id} a strdf:Period ; strdf:hasActualPeriod {duration}.
+source		select id, duration from meeting
+
+mappingId	Temporal Overlaps
+target		strdf:Period/{id1} strdf:overlaps strdf:Period/{id2}.
+source		select m1.id as id1, m2.id as id2 from meeting m1, meeting m2 where m1.duration && m2.duration and m1.id != m2.id
+
+]]
+

@@ -327,8 +327,13 @@ public class OBDAVocabulary {
 	
 	public static final String GEOSPARQL_WKT_LITERAL_DATATYPE = "http://www.opengis.net/ont/geosparql#wktLiteral";
 
+	public static final String TEMPORAL_DATATYPE = "http://www.semanticweb.org/ontologies/2011/4/TemporalMeeting.owl#Period";
+
 	public static final Predicate GEOSPARQL_WKT_LITERAL = new DatatypePredicateImpl(
 			GEOSPARQL_WKT_LITERAL_DATATYPE, COL_TYPE.GEOMETRY);
+
+	public static final Predicate TEMPORAL_LITERAL = new DatatypePredicateImpl(
+			TEMPORAL_DATATYPE, COL_TYPE.TEMPORAL);
 	
 
 	/* Common namespaces and prefixes */

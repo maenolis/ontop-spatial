@@ -104,7 +104,13 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>it.unibz.inf.ontop</groupId>
+			<artifactId>temporal</artifactId>
+			<version>1.16.1</version>
+		</dependency>
+
+    </dependencies>
 	
 	
 	<properties>

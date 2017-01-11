@@ -75,6 +75,7 @@
 		<module>ontop-cli</module>
 
 		<module>ontop-docker-test-env</module>
+		<module>temporal</module>
 	</modules>
 
 	<profiles>

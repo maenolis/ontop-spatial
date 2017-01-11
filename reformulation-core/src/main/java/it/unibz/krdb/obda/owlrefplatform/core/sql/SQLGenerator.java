@@ -20,6 +20,10 @@ package it.unibz.krdb.obda.owlrefplatform.core.sql;
  * #L%
  */
 
+import gr.uoa.di.temporal.sparql.predicate.TemporalBooleanOperationPredicate;
+import gr.uoa.di.temporal.sparql.predicate.TemporalPredicateEnum;
+import gr.uoa.di.temporal.obda.TemporalVocabulary;
+import gr.uoa.di.temporal.sql.TemporalTypes;
 import it.unibz.krdb.obda.model.*;
 import it.unibz.krdb.obda.model.OBDAQueryModifiers.OrderCondition;
 import it.unibz.krdb.obda.model.Predicate.COL_TYPE;
@@ -916,8 +920,12 @@ public class SQLGenerator implements SQLQueryGenerator {
 		 */
 		if (mainColumn.charAt(0) != '\'' && mainColumn.charAt(0) != '(') {
 			if (!isStringColType(ht, index)) {
-				if (isGeomColType(ht, index))
-					mainColumn =  sqladapter.sqlCast(mainColumn, 1111);
+				if (isGeomColType(ht, index)) {
+					mainColumn =  sqladapter.sqlCast(mainColumn, Types.OTHER);
+				} else if (isTemporalColType(ht, index)) {
+					mainColumn =  sqladapter.sqlCast(mainColumn, TemporalTypes.PERIOD);
+				}
+
 				else
 					mainColumn = sqladapter.sqlCast(mainColumn, Types.VARCHAR);
 			}
@@ -1051,7 +1059,10 @@ public class SQLGenerator implements SQLQueryGenerator {
 			} else if (function.equals(OBDAVocabulary.GEOSPARQL_WKT_LITERAL_DATATYPE)) {
 				//return (String.format(typeStr, 10, signature.get(hpos)));
 				type = COL_TYPE.GEOMETRY;
-			}   else if (function instanceof BNodePredicate) {
+			}else if (function.equals(OBDAVocabulary.TEMPORAL_DATATYPE)) {
+				type = COL_TYPE.TEMPORAL;
+			}
+			else if (function instanceof BNodePredicate) {
 	                type = COL_TYPE.BNODE;
 			} else if (function.isStringOperationPredicate() || function instanceof NonBooleanOperationPredicate) {
             
@@ -1224,7 +1235,9 @@ public class SQLGenerator implements SQLQueryGenerator {
 						repl = replace1 + (getSQLString(currentTerm, index, false)) + replace2;
 					} else {
 						if (isGeomColType(currentTerm, index)){
-							repl =  sqladapter.sqlCast(getSQLString(currentTerm, index, false), 1111);
+							repl =  sqladapter.sqlCast(getSQLString(currentTerm, index, false), Types.OTHER);
+						} else if (isTemporalColType(currentTerm, index)) {
+							repl =  sqladapter.sqlCast(getSQLString(currentTerm, index, false), TemporalTypes.PERIOD);
 						}
 						else
 							repl = replace1 + sqladapter.sqlCast(getSQLString(currentTerm, index, false), Types.VARCHAR) + replace2;
@@ -1286,45 +1299,73 @@ public class SQLGenerator implements SQLQueryGenerator {
 		return toReturn;
 	}
 
-	private boolean isGeomColType(Term term, QueryAliasIndex index) {
-		if (term instanceof Function) {
-			Function function = (Function) term;
-			Predicate functionSymbol = function.getFunctionSymbol();
-			if (isUnary(function)) {
-					/*
-					 * Update the term with the parent term's first parameter.
-					 * Note: this method is confusing :(
-					 */
-					 term = function.getTerm(0);
-					 return isGeomColType(term, index);
-				}
-			
-		} else if (term instanceof Variable) {
-			Set<QualifiedAttributeID> viewdef = index.getColumnReferences((Variable) term);
-			QualifiedAttributeID def = viewdef.iterator().next();
-			QuotedID attributeId = def.getAttribute();
-			RelationID tableId = null;
-			if (def.getRelation().getTableName().toUpperCase().startsWith(VIEW_NAME_PREFIX)) {
-				for (Map.Entry<Function, RelationID> entry : index.viewNames.entrySet()) {
-					RelationID value = entry.getValue();
-					if (value.equals(def.getRelation())) {
-						tableId = Relation2DatalogPredicate
-									.createRelationFromPredicateName(entry.getKey().getFunctionSymbol());
-						break;
-					}
-				}
+	private boolean isGeomColType(final Term term, final QueryAliasIndex index) {
+		Term actualTerm = term;
+		while (isUnaryFunction(actualTerm)) {
+			actualTerm = ((Function)actualTerm).getTerm(0);
+
+		}
+		if (actualTerm instanceof Variable) {
+			Attribute tableAttribute = getTableAttribute(actualTerm, index);
+			if (tableAttribute == null) {
+				return false;
 			}
-			DatabaseRelationDefinition table = metadata.getDatabaseRelation(tableId);
- 			Attribute a = table.getAttribute(attributeId);
-			if (table != null) {
-				if (a.getType()==1111 || a.getType()== 2004) 
-					return true;
-				else
-					return false;
-			}
+			return (!isTableAttributeTemporal(tableAttribute) &&
+					(tableAttribute.getType()==1111 || tableAttribute.getType()== 2004));
 		}
 		return false;
+	}
 
+	private Attribute getTableAttribute(final Term term, final QueryAliasIndex index) {
+		Set<QualifiedAttributeID> viewdef = index.getColumnReferences((Variable) term);
+		QualifiedAttributeID def = viewdef.iterator().next();
+		QuotedID attributeId = def.getAttribute();
+		RelationID tableId = null;
+		if (def.getRelation().getTableName().toUpperCase().startsWith(VIEW_NAME_PREFIX)) {
+			for (Map.Entry<Function, RelationID> entry : index.viewNames.entrySet()) {
+				RelationID value = entry.getValue();
+				if (value.equals(def.getRelation())) {
+					tableId = Relation2DatalogPredicate
+							.createRelationFromPredicateName(entry.getKey().getFunctionSymbol());
+					break;
+				}
+			}
+		}
+		DatabaseRelationDefinition table = metadata.getDatabaseRelation(tableId);
+		if (table != null) {
+			return table.getAttribute(attributeId);
+		} else {
+			return null;
+		}
+
+	}
+
+	private boolean isUnaryFunction(final Term term) {
+		if (term instanceof Function) {
+			Function function = (Function) term;
+			return isUnary(function);
+		}
+		return false;
+	}
+
+	private boolean isTemporalColType(final Term term, final QueryAliasIndex index) {
+		Term actualTerm = term;
+		while (isUnaryFunction(actualTerm)) {
+			actualTerm = ((Function)actualTerm).getTerm(0);
+
+		}
+		if (actualTerm instanceof Variable) {
+			Attribute tableAttribute = getTableAttribute(actualTerm, index);
+			return isTableAttributeTemporal(tableAttribute);
+		}
+		return false;
+	}
+
+	private boolean isTableAttributeTemporal(final Attribute attribute) {
+		if (attribute == null) {
+			return false;
+		}
+		return TemporalVocabulary.PERIOC_COLUMN_NAME.equals(attribute.getSQLTypeName());
 	}
 	
 	private boolean isStringColType(Term term, QueryAliasIndex index) {
@@ -1839,7 +1880,10 @@ public class SQLGenerator implements SQLQueryGenerator {
 		} else if (functionSymbol.equals(OBDAVocabulary.STR_ENDS)) {
 			operator = sqladapter.strEndsOperator();
 		} else if (functionSymbol.equals(OBDAVocabulary.CONTAINS)) {
-				operator = sqladapter.strContainsOperator();}
+			operator = sqladapter.strContainsOperator();
+		} else if (functionSymbol instanceof TemporalBooleanOperationPredicate) {
+			operator = TemporalPredicateEnum.getOperator(functionSymbol.getName());
+		}
 		else {
 			throw new RuntimeException("Unknown boolean operator: " + functionSymbol);
 		}

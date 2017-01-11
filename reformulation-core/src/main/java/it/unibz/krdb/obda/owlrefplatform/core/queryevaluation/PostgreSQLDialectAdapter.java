@@ -20,6 +20,8 @@ package it.unibz.krdb.obda.owlrefplatform.core.queryevaluation;
  * #L%
  */
 
+import gr.uoa.di.temporal.sql.TemporalTypes;
+
 import java.sql.Types;
 import java.util.regex.Pattern;
 
@@ -28,12 +30,6 @@ import java.util.regex.Pattern;
 public class PostgreSQLDialectAdapter extends SQL99DialectAdapter {
 
     private Pattern quotes = Pattern.compile("[\"`\\['].*[\"`\\]']");
-    public static int GEOMETRYSQLDATATYPE = 1111;
-	
-
-	public static int getGEOMETRYSQLDATATYPE() { //add a function in the interface
-		return GEOMETRYSQLDATATYPE;
-	}
 	
     @Override
     public String MD5(String str){
@@ -118,9 +114,11 @@ public class PostgreSQLDialectAdapter extends SQL99DialectAdapter {
 		String strType = null;
 		if (type == Types.VARCHAR) {
 			strType = "VARCHAR(10485760)";
-		} else if (type == GEOMETRYSQLDATATYPE) { //if the column is a geometry column, a cast is not enough 
+		} else if (type == Types.OTHER) { //if the column is a geometry column, a cast is not enough
 			//return "ST_AsText(" + value + ")";  
-			return "CONCAT('<http://www.opengis.net/def/crs/EPSG/0/4326> ' , ST_AsText(" + value + "))";  
+			return "CONCAT('<http://www.opengis.net/def/crs/EPSG/0/4326> ' , ST_AsText(" + value + "))";
+		} else if (type == TemporalTypes.PERIOD) {
+			return "CAST(" + "period_out(" + value + ")" + " AS " + "text" + ")";
 		} else {
 			throw new RuntimeException("Unsupported SQL type");
 		}

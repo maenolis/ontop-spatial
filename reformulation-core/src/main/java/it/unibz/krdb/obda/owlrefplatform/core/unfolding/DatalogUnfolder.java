@@ -22,6 +22,7 @@ package it.unibz.krdb.obda.owlrefplatform.core.unfolding;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import gr.uoa.di.temporal.sparql.rule.TemporalRuleApplier;
 import it.unibz.krdb.obda.model.*;
 import it.unibz.krdb.obda.model.impl.OBDADataFactoryImpl;
 import it.unibz.krdb.obda.model.impl.OBDAVocabulary;
@@ -175,8 +176,11 @@ public class DatalogUnfolder implements UnfoldingMechanism {
 	@Override
 	public DatalogProgram unfold(DatalogProgram inputquery, String targetPredicate) {
 
+
+
 		List<CQIE> workingSet = new LinkedList<>();
-		for (CQIE query : inputquery.getRules()) 
+
+		for (CQIE query : inputquery.getRules())
 			workingSet.add(query.clone());
 				
 		for (CQIE query : workingSet)
@@ -195,6 +199,10 @@ public class DatalogUnfolder implements UnfoldingMechanism {
 		
 		for (CQIE query : workingSet)
 			GeosparqlRIFImpl.applyRIFrules(query, result);
+
+		TemporalRuleApplier.applyRules(workingSet, result);
+
+		computePartialEvaluation(workingSet);
 
 
 		return result;
