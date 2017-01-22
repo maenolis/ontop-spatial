@@ -762,7 +762,7 @@ public class ExpressionEvaluator {
      */
     private Term temporalEval(Function term) {
         // TODO
-        return null;
+        return term;
     }
 
     public Term evalEqNeq(Function term, boolean eq) {
