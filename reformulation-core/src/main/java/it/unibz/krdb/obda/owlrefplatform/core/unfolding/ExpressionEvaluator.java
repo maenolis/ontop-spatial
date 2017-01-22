@@ -761,35 +761,8 @@ public class ExpressionEvaluator {
      * @return the term
      */
     private Term temporalEval(Function term) {
-        if (!(term instanceof Function)) {
-            return term;
-        }
-
-        final Term term1 = term.getTerm(0);
-        final Term term2 = term.getTerm(1);
-
-        final Term arg1 = getTemporalArgumentByTerm(term1);
-        final Term arg2 = getTemporalArgumentByTerm(term2);
-
-        //OK
-        final Predicate pred = term.getFunctionSymbol();
-
-        return TEMPORAL_FACTORY.createTemporalFunction(pred, arg1, arg2);
-    }
-
-    private Term getTemporalArgumentByTerm(final Term term) {
-        Term arg;
-        if (term instanceof Function) {
-            Function f1 = (Function) term;
-            arg = (f1.getArity() == 1) ? f1.getTerm(0) : TEMPORAL_FACTORY.createPeriodFunction(term);
-        } else if (term instanceof ValueConstant) {
-            //TODO
-            arg = TEMPORAL_FACTORY.createPeriodFunction(term);
-        } else {
-            arg = term;
-        }
-
-        return arg;
+        // TODO
+        return null;
     }
 
     public Term evalEqNeq(Function term, boolean eq) {

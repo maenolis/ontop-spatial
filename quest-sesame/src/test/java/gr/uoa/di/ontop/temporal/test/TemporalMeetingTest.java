@@ -33,8 +33,6 @@ public class TemporalMeetingTest extends TestCase {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:overlaps ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
                 "}";
 
         // Prefixes + query

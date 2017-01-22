@@ -12,11 +12,7 @@ public class DIHolder {
     private final static TemporalFactory TEMPORAL_FACTORY = TemporalFactoryImpl.INSTANCE;
     private static final OBDADataFactory OBDA_FACTORY = OBDADataFactoryImpl.getInstance();
 
-    public static final Predicate HAS_SERIALIZATION_PRED = OBDA_FACTORY.getObjectPropertyPredicate(TemporalVocabulary.URIs.HAS_SERIALIZATION);
-    public static final Predicate HAS_PERIOD_PRED = OBDA_FACTORY.getObjectPropertyPredicate(TemporalVocabulary.URIs.HAS_PERIOD);
-
     public static final TemporalBooleanOperationPredicate HAS_SERIALIZATION_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.URIs.HAS_SERIALIZATION);
-    public static final TemporalBooleanOperationPredicate HAS_ACTUAL_PERIOD_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.URIs.HAS_ACTUAL_PERIOD);
     public static final TemporalBooleanOperationPredicate HAS_PERIOD_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.URIs.HAS_PERIOD);
     public static final TemporalBooleanOperationPredicate CONTAINS_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.Predicates.CONTAINS);
     public static final TemporalBooleanOperationPredicate CONTAINED_BY_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.Predicates.CONTAINED_BY);
@@ -26,6 +22,6 @@ public class DIHolder {
     public static final TemporalBooleanOperationPredicate NEQUALS_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.Predicates.NEQUALS);
     public static final TemporalBooleanOperationPredicate OVERRIGHT_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.Predicates.OVERRIGHT);
     public static final TemporalBooleanOperationPredicate OVERLEFT_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.Predicates.OVERLEFT);
-    public static final TemporalBooleanOperationPredicate OVERLAPS_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.URIs.OVERLAPS);
+    public static final TemporalBooleanOperationPredicate OVERLAPS_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.Predicates.OVERLAPS);
     public static final TemporalBooleanOperationPredicate ADJACENT_PREDICATE = TEMPORAL_FACTORY.createTemporalPredicate(TemporalVocabulary.Predicates.ADJACENT);
 }

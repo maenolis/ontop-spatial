@@ -16,16 +16,8 @@ driverClass	org.postgresql.Driver
 
 [MappingDeclaration] @collection [[
 mappingId	Temporal Meeting
-target		strdf:Meeting/{id} a strdf:Meeting ; strdf:hasId {id} ; strdf:hasName {name} ; strdf:hasLocation {location} ; strdf:hasPeriod {duration} ; strdf:hasSerialization strdf:Period/{id}.
+target		strdf:Meeting/{id} a strdf:Meeting ; strdf:hasId {id} ; strdf:hasName {name} ; strdf:hasLocation {location} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period.
 source		select id, name, location, duration from meeting
-
-mappingId	Temporal Period has period
-target		strdf:Period/{id} a strdf:Period ; strdf:hasActualPeriod {duration}.
-source		select id, duration from meeting
-
-mappingId	Temporal Overlaps
-target		strdf:Period/{id1} strdf:overlaps strdf:Period/{id2}.
-source		select m1.id as id1, m2.id as id2 from meeting m1, meeting m2 where m1.duration && m2.duration and m1.id != m2.id
 
 ]]
 

@@ -30,11 +30,6 @@ public enum TemporalFactoryImpl implements TemporalFactory {
         return new TemporalFunctionImpl(functor, terms);
     }
 
-    @Override
-    public TemporalFunction createPeriodFunction(Term... terms) {
-        return createTemporalFunction(DIHolder.HAS_ACTUAL_PERIOD_PREDICATE, terms);
-    }
-
 
 
 }

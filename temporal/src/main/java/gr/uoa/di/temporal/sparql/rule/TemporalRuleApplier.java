@@ -28,12 +28,16 @@ public final class TemporalRuleApplier {
                 final Term t1 = terms.get(0);
                 final Term t2 = terms.get(1);
 
+                if (t1.toString().endsWith(SERIALIZATION_LITERAL) || t2.toString().endsWith(SERIALIZATION_LITERAL)) {
+                    continue;
+                }
+
                 // Find predicate if temporal.
                 final String predicateName = atom.getFunctionSymbol().getName();
                 final Predicate predicate = TemporalPredicateEnum.getPredicate(predicateName);
 
                 // Intervention decision.
-                if (!TemporalPredicateEnum.translate(predicate) || t1.toString().startsWith("URI")) {
+                if (!TemporalPredicateEnum.translate(predicate) || (t1 instanceof Function)) {
                     continue;
                 }
 
@@ -44,31 +48,12 @@ public final class TemporalRuleApplier {
                 // Rule replacement
                 final Function fuc = OBDA_FACTORY.getFunction(predicate , intermediateVar1, intermediateVar2);
 
-                addIntermediatePred(t1, intermediateVar1, body);
-                addIntermediatePred(t2, intermediateVar2, body);
                 body.set(i, fuc);
+
+                body.add(OBDA_FACTORY.getFunction(DIHolder.HAS_SERIALIZATION_PREDICATE, t1, intermediateVar1));
+                body.add(OBDA_FACTORY.getFunction(DIHolder.HAS_SERIALIZATION_PREDICATE, t2, intermediateVar2));
             }
         }
 
-    }
-
-    private static void addIntermediatePred(final Term t, final Variable intermediateVar, final List<Function> body) {
-        for (int i = 0; i < body.size(); i++) {
-            final Function atom = body.get(i);
-            final List<Term> terms = atom.getTerms();
-            final String predicateName = atom.getFunctionSymbol().getName();
-            if(terms.size() < 2 || !predicateName.equals(TemporalPredicateEnum.HAS_PERIOD.getPredicate().getName())) {
-                continue;
-            }
-
-            final Term t1 = terms.get(0);
-            final Term t2 = terms.get(1);
-
-            if (t2.equals(t)) {
-                body.add(OBDA_FACTORY.getFunction(DIHolder.HAS_SERIALIZATION_PRED, t1, intermediateVar));
-                return;
-            }
-
-        }
     }
 }

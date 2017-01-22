@@ -202,9 +202,6 @@ public class DatalogUnfolder implements UnfoldingMechanism {
 
 		TemporalRuleApplier.applyRules(workingSet, result);
 
-		computePartialEvaluation(workingSet);
-
-
 		return result;
 	}
 

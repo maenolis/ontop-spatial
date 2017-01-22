@@ -13,6 +13,4 @@ public interface TemporalFactory {
     TemporalFunction createTemporalFunction(Predicate functor, Term... terms);
 
     TemporalFunction createTemporalFunction(Predicate functor, List<Term> terms);
-
-    TemporalFunction createPeriodFunction(Term... terms);
 }

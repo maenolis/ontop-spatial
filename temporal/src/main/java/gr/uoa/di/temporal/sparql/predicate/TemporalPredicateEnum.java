@@ -10,7 +10,6 @@ import java.util.List;
 
 public enum TemporalPredicateEnum {
     HAS_SERIALIZATION(DIHolder.HAS_SERIALIZATION_PREDICATE, null, TemporalVocabulary.URIs.HAS_SERIALIZATION),
-    HAS_ACTUAL_PERIOD(DIHolder.HAS_ACTUAL_PERIOD_PREDICATE, null, TemporalVocabulary.URIs.HAS_ACTUAL_PERIOD),
     HAS_PERIOD(DIHolder.HAS_PERIOD_PREDICATE, null, TemporalVocabulary.URIs.HAS_PERIOD),
     CONTAINS(DIHolder.CONTAINS_PREDICATE, TemporalVocabulary.Operators.CONTAINS, TemporalVocabulary.URIs.CONTAINS),
     CONTAINED_BY(DIHolder.CONTAINED_BY_PREDICATE, TemporalVocabulary.Operators.CONTAINED_BY, TemporalVocabulary.URIs.CONTAINED_BY),
@@ -23,7 +22,7 @@ public enum TemporalPredicateEnum {
     BEFORE(DIHolder.BEFORE_PREDICATE, TemporalVocabulary.Operators.BEFORE, TemporalVocabulary.URIs.BEFORE),
     AFTER(DIHolder.AFTER_PREDICATE, TemporalVocabulary.Operators.AFTER, TemporalVocabulary.URIs.AFTER);
 
-    private static final List<Predicate> exclusions = Arrays.asList(HAS_SERIALIZATION.getPredicate(), HAS_PERIOD.getPredicate(), HAS_ACTUAL_PERIOD.getPredicate());
+    private static final List<Predicate> exclusions = Arrays.asList(HAS_SERIALIZATION.getPredicate(), HAS_PERIOD.getPredicate());
 
     private final Predicate predicate;
     private final String operator;

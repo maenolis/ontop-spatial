@@ -23,17 +23,7 @@
     <!--Ontologies-->
     <owl:Ontology rdf:about="&strdf;"/>
 
-    <!--DatatypeProperties-->
-    <owl:DatatypeProperty rdf:about="&strdf;hasPeriod"/>
-    <owl:DatatypeProperty rdf:about="&strdf;overlaps"/>
-    <owl:DatatypeProperty rdf:about="&strdf;hasActualPeriod"/>
-    <owl:DatatypeProperty rdf:about="&strdf;hasId"/>
-    <owl:DatatypeProperty rdf:about="&strdf;hasName">
-        <rdfs:range rdf:resource="&xsd;string"/>
-    </owl:DatatypeProperty>
-    <owl:DatatypeProperty rdf:about="&strdf;hasLocation">
-        <rdfs:range rdf:resource="&xsd;string"/>
-    </owl:DatatypeProperty>
+    <rdfs:Datatype rdf:ID="period"></rdfs:Datatype>
 
     <!--Classes-->
     <owl:Class rdf:about="&strdf;Meeting"/>

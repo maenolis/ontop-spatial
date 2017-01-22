@@ -13,7 +13,6 @@ public class TemporalVocabulary {
     public static class URIs {
         public static final String TEMPORAL_URI_PREFIX = "http://www.semanticweb.org/ontologies/2011/4/TemporalMeeting.owl#";
         public static final String HAS_SERIALIZATION = TEMPORAL_URI_PREFIX + Predicates.HAS_SERIALIZATION;
-        public static final String HAS_ACTUAL_PERIOD = TEMPORAL_URI_PREFIX + Predicates.HAS_ACTUAL_PERIOD;
         public static final String HAS_PERIOD = TEMPORAL_URI_PREFIX + Predicates.HAS_PERIOD;
         public static final String CONTAINS = TEMPORAL_URI_PREFIX + Predicates.CONTAINS;
         public static final String CONTAINED_BY = TEMPORAL_URI_PREFIX + Predicates.CONTAINED_BY;
@@ -34,7 +33,6 @@ public class TemporalVocabulary {
     public static class Predicates {
         public static final String HAS_PERIOD = "hasPeriod";
         public static final String HAS_SERIALIZATION = "hasSerialization";
-        public static final String HAS_ACTUAL_PERIOD = "hasActualPeriod";
         public static final String CONTAINS = "contains";
         public static final String CONTAINED_BY = "contained_by";
         public static final String ADJACENT = "adjacent";
