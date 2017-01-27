@@ -1365,7 +1365,7 @@ public class SQLGenerator implements SQLQueryGenerator {
 		if (attribute == null) {
 			return false;
 		}
-		return TemporalVocabulary.PERIOC_COLUMN_NAME.equals(attribute.getSQLTypeName());
+		return TemporalVocabulary.General.PERIOD_COLUMN_NAME.equals(attribute.getSQLTypeName());
 	}
 	
 	private boolean isStringColType(Term term, QueryAliasIndex index) {

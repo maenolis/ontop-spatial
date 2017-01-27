@@ -34,7 +34,7 @@ public final class TemporalRuleApplier {
 
                 // Find predicate if temporal.
                 final String predicateName = atom.getFunctionSymbol().getName();
-                final Predicate predicate = TemporalPredicateEnum.getPredicate(predicateName);
+                final Predicate predicate = TemporalPredicateEnum.getPredicateByUri(predicateName);
 
                 // Intervention decision.
                 if (!TemporalPredicateEnum.translate(predicate) || (t1 instanceof Function)) {

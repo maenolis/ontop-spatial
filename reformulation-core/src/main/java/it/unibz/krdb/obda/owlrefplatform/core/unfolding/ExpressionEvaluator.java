@@ -302,7 +302,7 @@ public class ExpressionEvaluator {
             return term;
         } else if (pred == OBDAVocabulary.CONTAINS) {
             return term;
-        } else if (TemporalPredicateEnum.getPredicate(pred.getName()) != null) {
+        } else if (TemporalPredicateEnum.getPredicateByPredicateName(pred.getName()) != null) {
             return temporalEval(term);
         } else {
             throw new RuntimeException(

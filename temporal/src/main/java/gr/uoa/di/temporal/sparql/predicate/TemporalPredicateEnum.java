@@ -46,22 +46,36 @@ public enum TemporalPredicateEnum {
         return uri;
     }
 
-    public static TemporalPredicateEnum get(final String predicateName) {
+    public static TemporalPredicateEnum getByPredicateName(final String predicateName) {
         for (TemporalPredicateEnum val: TemporalPredicateEnum.values()) {
-            if (val.getUri().equals(predicateName) || val.getPredicate().getName().equals(predicateName)) {
+            if (val.getPredicate().getName().equals(predicateName)) {
                 return val;
             }
         }
         return null;
     }
 
-    public static Predicate getPredicate(final String predicateName) {
-        final TemporalPredicateEnum value = get(predicateName);
+    public static TemporalPredicateEnum getByUri(final String uri) {
+        for (TemporalPredicateEnum val: TemporalPredicateEnum.values()) {
+            if (val.getUri().equals(uri)) {
+                return val;
+            }
+        }
+        return null;
+    }
+
+    public static Predicate getPredicateByPredicateName(final String predicateName) {
+        final TemporalPredicateEnum value = getByPredicateName(predicateName);
+        return value != null ? value.getPredicate() : null;
+    }
+
+    public static Predicate getPredicateByUri(final String uri) {
+        final TemporalPredicateEnum value = getByUri(uri);
         return value != null ? value.getPredicate() : null;
     }
 
     public static String getOperator(final String predicateName) {
-        final TemporalPredicateEnum value = get(predicateName);
+        final TemporalPredicateEnum value = getByPredicateName(predicateName);
         return value != null ? value.getOperator() : null;
     }
 
