@@ -11,9 +11,7 @@ package gr.uoa.di.ontop.temporal.test;
     import org.slf4j.LoggerFactory;
     import sesameWrapper.SesameVirtualRepo;
 
-public class TemporalMeetingTest extends TestCase {
-
-    final static Logger LOGGER = LoggerFactory.getLogger(TemporalQueryTest.class);
+public abstract class AbstractTemporalTest extends TestCase {
 
     public void test() throws Exception {
 
@@ -26,24 +24,15 @@ public class TemporalMeetingTest extends TestCase {
                 + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n"
                 + "PREFIX strdf: <http://www.semanticweb.org/ontologies/2011/4/TemporalMeeting.owl#> \n";
 
-        // Query
-        final String query = "select distinct *" +
-                "where " +
-                "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
-                ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
-                ". ?p1 strdf:overlaps ?p2" +
-                "}";
-
         // Prefixes + query
-        final String finalQuery = prefixes + query;
+        final String finalQuery = prefixes + getQuery();
 
-        LOGGER.debug("Query to be executed:");
-        LOGGER.debug("\n\n" + finalQuery + "\n");
+        getLogger().debug("Query to be executed:");
+        getLogger().debug("\n\n" + finalQuery + "\n");
 
 
         //create a sesame repository
-        Repository repo = null;
+        Repository repo;
 
         try {
 
@@ -54,7 +43,7 @@ public class TemporalMeetingTest extends TestCase {
             TupleQueryResultHandler handler = new SPARQLResultsTSVWriter(System.out);
             tupleQuery.evaluate(handler);
 
-            LOGGER.info("Closing repository connection.");
+            getLogger().info("Closing repository connection.");
 
             repo.getConnection().close();
 
@@ -62,8 +51,11 @@ public class TemporalMeetingTest extends TestCase {
             e.printStackTrace();
         }
 
-        LOGGER.info("Test finished.");
+        getLogger().info("Test finished.");
     }
+
+    protected abstract String getQuery();
+    protected abstract Logger getLogger();
 
 }
 

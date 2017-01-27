@@ -34,7 +34,7 @@ public class TemporalVocabulary {
         public static final String HAS_PERIOD = "hasPeriod";
         public static final String HAS_SERIALIZATION = "hasSerialization";
         public static final String CONTAINS = "contains";
-        public static final String CONTAINED_BY = "contained_by";
+        public static final String CONTAINED_BY = "containedBy";
         public static final String ADJACENT = "adjacent";
         public static final String OVERLAPS = "overlaps";
         public static final String OVERLEFT = "overleft";
@@ -53,7 +53,7 @@ public class TemporalVocabulary {
     public static class Operators {
         public static final String CONTAINS = "%s @> %s";
         public static final String CONTAINED_BY = "%s <@ %s";
-        public static final String ADJACENT = "TBD";
+        public static final String ADJACENT = "adjacent(%s, %s)";
         public static final String OVERLAPS = "%s && %s";
         public static final String OVERLEFT = "%s &< %s";
         public static final String OVERRIGHT = "%s &> %s";
