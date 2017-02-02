@@ -3,8 +3,11 @@ package gr.uoa.di.temporal.sparql.rule;
 import gr.uoa.di.temporal.dependency.DIHolder;
 import gr.uoa.di.temporal.sparql.predicate.TemporalPredicateEnum;
 import it.unibz.krdb.obda.model.*;
+import it.unibz.krdb.obda.model.impl.FunctionalTermImpl;
 import it.unibz.krdb.obda.model.impl.OBDADataFactoryImpl;
+import it.unibz.krdb.obda.model.impl.OBDAVocabulary;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class TemporalRuleApplier {
@@ -42,18 +45,34 @@ public final class TemporalRuleApplier {
                 }
 
                 // Intermediate variables
-                final Variable intermediateVar1 = OBDA_FACTORY.getVariable(t1.toString() + SERIALIZATION_LITERAL);
-                final Variable intermediateVar2 = OBDA_FACTORY.getVariable(t2.toString() + SERIALIZATION_LITERAL);
+                final List<Function> additionFunctions = new ArrayList<>();
+                final Term intermediateVar1 = OBDA_FACTORY.getVariable(t1.toString() + SERIALIZATION_LITERAL);
+                additionFunctions.add(OBDA_FACTORY.getFunction(DIHolder.HAS_SERIALIZATION_PREDICATE, t1, intermediateVar1));;
+
+                final Term intermediateVar2;
+                if (isPeriodLiteralVariable(t2)) {
+                    intermediateVar2 = t2;
+                } else {
+                    intermediateVar2 = OBDA_FACTORY.getVariable(t2.toString() + SERIALIZATION_LITERAL);
+                    additionFunctions.add(OBDA_FACTORY.getFunction(DIHolder.HAS_SERIALIZATION_PREDICATE, t2, intermediateVar2));
+                }
 
                 // Rule replacement
                 final Function fuc = OBDA_FACTORY.getFunction(predicate , intermediateVar1, intermediateVar2);
 
                 body.set(i, fuc);
 
-                body.add(OBDA_FACTORY.getFunction(DIHolder.HAS_SERIALIZATION_PREDICATE, t1, intermediateVar1));
-                body.add(OBDA_FACTORY.getFunction(DIHolder.HAS_SERIALIZATION_PREDICATE, t2, intermediateVar2));
+                body.addAll(additionFunctions);
             }
         }
 
+    }
+
+    private static boolean isPeriodLiteralVariable(final Term term) {
+        if (term instanceof FunctionalTermImpl) {
+            final FunctionalTermImpl t = (FunctionalTermImpl) term;
+            return t.getFunctionSymbol().getName().equals(OBDAVocabulary.TEMPORAL_DATATYPE);
+        }
+        return false;
     }
 }

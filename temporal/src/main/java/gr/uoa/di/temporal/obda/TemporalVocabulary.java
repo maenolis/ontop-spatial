@@ -8,7 +8,6 @@ public class TemporalVocabulary {
     private static final String TEMPORAL_PREDICATE_PREFIX = "temporal_";
 
     public static class General {
-        public static final String INTERMEDIATE_LITERAL = "_intermediate";
         public static final String PERIOD_COLUMN_NAME = "period";
     }
 

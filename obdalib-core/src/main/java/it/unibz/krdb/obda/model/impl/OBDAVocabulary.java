@@ -331,9 +331,6 @@ public class OBDAVocabulary {
 
 	public static final Predicate GEOSPARQL_WKT_LITERAL = new DatatypePredicateImpl(
 			GEOSPARQL_WKT_LITERAL_DATATYPE, COL_TYPE.GEOMETRY);
-
-	public static final Predicate TEMPORAL_LITERAL = new DatatypePredicateImpl(
-			TEMPORAL_DATATYPE, COL_TYPE.TEMPORAL);
 	
 
 	/* Common namespaces and prefixes */
