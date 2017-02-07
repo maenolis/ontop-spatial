@@ -6,6 +6,7 @@ import it.unibz.krdb.obda.model.*;
 import it.unibz.krdb.obda.model.impl.FunctionalTermImpl;
 import it.unibz.krdb.obda.model.impl.OBDADataFactoryImpl;
 import it.unibz.krdb.obda.model.impl.OBDAVocabulary;
+import it.unibz.krdb.obda.model.impl.VariableImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public final class TemporalRuleApplier {
                 additionFunctions.add(OBDA_FACTORY.getFunction(DIHolder.HAS_SERIALIZATION_PREDICATE, t1, intermediateVar1));;
 
                 final Term intermediateVar2;
-                if (isPeriodLiteralVariable(t2)) {
+                if (!translate(body, t2)) {
                     intermediateVar2 = t2;
                 } else {
                     intermediateVar2 = OBDA_FACTORY.getVariable(t2.toString() + SERIALIZATION_LITERAL);
@@ -72,6 +73,25 @@ public final class TemporalRuleApplier {
         if (term instanceof FunctionalTermImpl) {
             final FunctionalTermImpl t = (FunctionalTermImpl) term;
             return t.getFunctionSymbol().getName().equals(OBDAVocabulary.TEMPORAL_DATATYPE);
+        }
+        return false;
+    }
+
+    private static boolean translate(final List<Function> body, final Term term) {
+        if (term instanceof VariableImpl) {
+            final Variable var = (VariableImpl) term;
+            for (int i = 0; i < body.size(); i++) {
+                final Function atom = body.get(i);
+                final List<Term> terms = atom.getTerms();
+                if (terms.size() < 2) {
+                    continue;
+                }
+
+                if (terms.get(1).toString().equals(var.getName()) &&
+                        atom.getFunctionSymbol().getName().equals(TemporalPredicateEnum.HAS_PERIOD.getUri())) {
+                    return true;
+                }
+            }
         }
         return false;
     }
