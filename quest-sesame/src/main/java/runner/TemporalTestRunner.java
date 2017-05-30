@@ -20,8 +20,8 @@ public class TemporalTestRunner {
     public void test() throws Exception {
 
         // Filenames
-        final String owlfileName = "/home/maenolis/git/spatialOntop/ontop-spatial/temporal/temporal-test-runner/src/main/resources/TemporalMeeting.owl";
-        final String obdafileName = "/home/maenolis/git/spatialOntop/ontop-spatial/temporal/temporal-test-runner/src/main/resources/TemporalMeeting.obda";
+        final String owlfileName = "/home/manvar/gitProjects/ontop-spatial/temporal/temporal-test-runner/src/main/resources/TemporalMeeting.owl";
+        final String obdafileName = "/home/manvar/gitProjects/ontop-spatial/temporal/temporal-test-runner/src/main/resources/TemporalMeeting.obda";
 
         // Prefixes
         final String prefixes = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
