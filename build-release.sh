@@ -12,10 +12,10 @@
 ########################################################################################################################
 
 # location for the build ROOT folder
-export BUILD_ROOT=~/gitProjects/ontop-spatial
+export BUILD_ROOT=/home/manvar/gitProjects/ontop-spatial
 
 # location for the build dependencies home 
-export ONTOP_DEP_HOME=~/ontopBuilds/dependencies
+export ONTOP_DEP_HOME=/home/manvar/ontopBuilds/dependencies
 
 #------------------------------------------# 
 # DO NOT touch the following command lines #
