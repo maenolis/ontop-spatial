@@ -9,7 +9,7 @@ strdf:		http://www.semanticweb.org/ontologies/2011/4/TemporalMeeting.owl#
 
 [SourceDeclaration]
 sourceUri	endpoint
-connectionUrl	jdbc:postgresql://localhost:5432/endpoint
+connectionUrl	jdbc:postgresql://localhost:5432/temporalontop
 username	postgres
 password	postgres
 driverClass	org.postgresql.Driver
