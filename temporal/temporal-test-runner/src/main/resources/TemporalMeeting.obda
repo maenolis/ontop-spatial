@@ -11,7 +11,7 @@ strdf:		http://www.semanticweb.org/ontologies/2011/4/TemporalMeeting.owl#
 sourceUri	endpoint
 connectionUrl	jdbc:postgresql://localhost:5432/temporalontop
 username	postgres
-password	postgres
+password	p1r3as
 driverClass	org.postgresql.Driver
 
 [MappingDeclaration] @collection [[
