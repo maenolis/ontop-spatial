@@ -12,7 +12,7 @@
 ########################################################################################################################
 
 # location for the build ROOT folder
-export BUILD_ROOT=~/gitProjects/spatialOntop/ontop-spatial
+export BUILD_ROOT=~/gitProjects/ontop-spatial
 
 # location for the build dependencies home 
 export ONTOP_DEP_HOME=~/ontopBuilds/dependencies
