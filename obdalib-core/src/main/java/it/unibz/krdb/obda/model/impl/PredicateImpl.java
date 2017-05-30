@@ -85,6 +85,20 @@ public class PredicateImpl implements Predicate {
 	}
 
 	@Override
+	public void setType(COL_TYPE type) {
+		types = new COL_TYPE[1];
+		types[0] = type;
+	}
+
+	public void addTypes(Integer... typeIds) {
+		types = new COL_TYPE[10];
+		int j = 0;
+		for (Integer i : typeIds) {
+			types[j] = COL_TYPE.getQuestType(i);
+		}
+	}
+
+	@Override
 	public boolean isClass() {
 		if (arity == 1 && types[0] == COL_TYPE.OBJECT) {
 			return true;

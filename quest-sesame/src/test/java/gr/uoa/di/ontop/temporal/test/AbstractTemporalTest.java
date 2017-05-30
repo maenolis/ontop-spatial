@@ -1,5 +1,11 @@
 package gr.uoa.di.ontop.temporal.test;
 
+    import it.unibz.krdb.obda.model.impl.FunctionalTermImpl;
+    import it.unibz.krdb.obda.model.impl.OBDAModelImpl;
+    import it.unibz.krdb.obda.model.impl.RDBMSMappingAxiomImpl;
+    import it.unibz.krdb.obda.owlrefplatform.core.Quest;
+    import it.unibz.krdb.obda.owlrefplatform.questdb.QuestDBVirtualStore;
+    import org.apache.commons.io.FileUtils;
     import org.openrdf.query.QueryLanguage;
     import org.openrdf.query.TupleQuery;
     import org.openrdf.query.TupleQueryResultHandler;
@@ -11,12 +17,18 @@ package gr.uoa.di.ontop.temporal.test;
     import org.slf4j.LoggerFactory;
     import sesameWrapper.SesameVirtualRepo;
 
+    import java.io.File;
+    import java.util.ArrayList;
+
 public abstract class AbstractTemporalTest extends TestCase {
 
     public void test() throws Exception {
 
         // Filenames
         final String owlfileName = "src/test/resources/temporal/TemporalMeeting.owl";
+
+        File source = new File("src/test/resources/temporal/TemporalMeeting.obda");
+
         final String obdafileName = "src/test/resources/temporal/TemporalMeeting.obda";
 
         // Prefixes

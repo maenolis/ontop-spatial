@@ -16,7 +16,9 @@ public class TemporalContainsTest extends AbstractTemporalTest {
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:contains ?p2" +
                 ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+                ". FILTER(?id1 != ?id2)" +
+                ". FILTER(?id2 < 428166)" +
+                ". FILTER(?id1 < 428166)" +
                 "}";
         return query;
     }

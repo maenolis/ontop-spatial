@@ -23,7 +23,7 @@
     <!--Ontologies-->
     <owl:Ontology rdf:about="&strdf;"/>
 
-    <rdfs:Datatype rdf:ID="period"></rdfs:Datatype>
+    <rdfs:Datatype rdf:about="&strdf;period"/>
 
     <!--Classes-->
     <owl:Class rdf:about="&strdf;Meeting"/>

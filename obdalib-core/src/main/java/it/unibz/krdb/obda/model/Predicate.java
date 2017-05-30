@@ -86,6 +86,8 @@ public interface Predicate extends Cloneable, Serializable {
 		}
   };
 
+	public void setType(COL_TYPE type);
+
   
   
     

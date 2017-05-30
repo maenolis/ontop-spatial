@@ -149,3 +149,5 @@ cp target/ontop-distribution-$VERSION.$REVISION-bin.zip $OWL_API_DIST/ontop-dist
 echo ""
 echo "Done."
 echo ""
+
+# /home/maenolis/git/spatialOntop/ontop-spatial/quest-distribution/QuestOWL

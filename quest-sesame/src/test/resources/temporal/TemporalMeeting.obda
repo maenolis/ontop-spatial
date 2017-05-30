@@ -15,9 +15,9 @@ password	postgres
 driverClass	org.postgresql.Driver
 
 [MappingDeclaration] @collection [[
-mappingId	Temporal Meeting
-target		strdf:Meeting/{id} a strdf:Meeting ; strdf:hasId {id} ; strdf:hasName {name} ; strdf:hasLocation {location} ; strdf:hasPeriod strdf:Period/{id} ; strdf:hasCreationDate {creation_date}^^xsd:dateTime . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
-source		select id, name, location, duration, creation_date from meeting
+mappingId   Temporal Meeting
+target      strdf:Meeting/{id} a strdf:Meeting ; strdf:hasId {id} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
+source      select id, duration from meeting
 
 ]]
 
