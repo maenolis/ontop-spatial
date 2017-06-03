@@ -9,9 +9,9 @@ strdf:		http://www.semanticweb.org/ontologies/2011/4/TemporalMeeting.owl#
 
 [SourceDeclaration]
 sourceUri	endpoint
-connectionUrl	jdbc:postgresql://localhost:5432/temporalontop
-username	postgres
-password	p1r3as
+connectionUrl	jdbc:postgresql://hostPortPlaceHolder/dbNamePlaceHolder
+username	usernamePlaceHolder
+password	passwordPlaceHolder
 driverClass	org.postgresql.Driver
 
 [MappingDeclaration] @collection [[
