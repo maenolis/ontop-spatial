@@ -19,5 +19,8 @@ mappingId   Temporal Meeting
 target      strdf:Meeting/{id} a strdf:Meeting ; strdf:hasId {id} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
 source      select id, duration from meeting
 
+mappingId   Temporal Event
+target      strdf:Event/{id} a strdf:Event ; strdf:hasId {id} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
+source      select id, duration from event
 ]]
 
