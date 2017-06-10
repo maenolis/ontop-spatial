@@ -115,7 +115,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:overlaps ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
@@ -128,7 +128,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:adjacent ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
@@ -141,7 +141,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:after ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
@@ -154,7 +154,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:before ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
@@ -167,7 +167,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:containedBy ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
@@ -180,7 +180,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:contains ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 != ?id2)" +
 //                ". FILTER(?id2 < 428166)" +
 //                ". FILTER(?id1 < 428166)" +
@@ -195,7 +195,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasCreationDate ?p2" +
                 ". ?p1 strdf:contains ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
@@ -208,7 +208,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:equals ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
@@ -221,7 +221,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:nequals ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
@@ -246,7 +246,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:overleft ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
@@ -259,7 +259,7 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:overright ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
