@@ -1,7 +1,6 @@
 package runner;
 
 import com.google.common.base.Stopwatch;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResultHandler;
@@ -9,11 +8,8 @@ import org.openrdf.query.resultio.text.tsv.SPARQLResultsTSVWriter;
 import org.openrdf.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.impl.Log4jLoggerFactory;
 import sesameWrapper.SesameVirtualRepo;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -58,8 +54,7 @@ public class TemporalTestRunner {
                 repo = new SesameVirtualRepo("temporal_name", owlfileName, obdafileName, false, "Temporal");
                 repo.initialize();
                 TupleQuery tupleQuery = repo.getConnection().prepareTupleQuery(QueryLanguage.SPARQL, currentQuery);
-                OutputStream os = new ByteOutputStream();
-                TupleQueryResultHandler handler = new SPARQLResultsTSVWriter(os);
+                TupleQueryResultHandler handler = new SPARQLResultsTSVWriter(System.out);
                 Stopwatch stopwatch = Stopwatch.createStarted();
 
                 tupleQuery.evaluate(handler);
@@ -69,7 +64,6 @@ public class TemporalTestRunner {
 
                 ps.println(stopwatch.toString());
                 ps.close();
-                os.close();
                 LOGGER.info("Closing repository connection.");
                 repo.getConnection().close();
             } catch (Exception e) {
