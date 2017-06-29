@@ -265,13 +265,13 @@ public class TemporalTestRunner {
         return query;
     }
 
-    protected String containedByTimestampPeriod() {
+    protected String periodContainsTimestamp() {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasTimePropagated ?t2" +
-                ". ?t2 strdf:containedBy ?p1" +
+                ". ?p1 strdf:contains ?t2" +
 //                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
