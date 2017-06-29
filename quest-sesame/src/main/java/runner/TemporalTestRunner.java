@@ -76,18 +76,24 @@ public class TemporalTestRunner {
 
     private Map<String, String> composeQueriesList() {
         final Map<String, String> result = new HashMap<>();
-        result.put("overlaps", getQueryOverlaps());
-        result.put("adjacent", getQueryAdjacent());
-        result.put("after", getQueryAfter());
-        result.put("before", getQueryBefore());
-        result.put("containedBy", getQueryContainedBy());
-        result.put("contains", getQueryContains());
-        result.put("containsTimestamp", getQueryContainsTimestamp());
-        result.put("equals", getQueryEquals());
-        result.put("nequals", getQueryNequals());
-        result.put("overlapsLiteral", getQueryOverlapsLiteral());
-        result.put("overleft", getQueryOverleft());
-        result.put("overright", getQueryOverright());
+//        result.put("overlaps", getQueryOverlaps());
+//        result.put("adjacent", getQueryAdjacent());
+//        result.put("after", getQueryAfter());
+//        result.put("before", getQueryBefore());
+//        result.put("containedBy", getQueryContainedBy());
+//        result.put("contains", getQueryContains());
+//        result.put("containsTimestamp", getQueryContainsTimestamp());
+//        result.put("equals", getQueryEquals());
+//        result.put("nequals", getQueryNequals());
+//        result.put("overlapsLiteral", getQueryOverlapsLiteral());
+//        result.put("overleft", getQueryOverleft());
+//        result.put("overright", getQueryOverright());
+        result.put("containedByTimestampPeriod", containedByTimestampPeriod());
+        result.put("fetchTable1", fetchTable1());
+        result.put("fetchTable2", fetchTable2());
+        result.put("fetchTable3", fetchTable3());
+        result.put("fetchTable4", fetchTable4());
+        result.put("fetchTable5", fetchTable5());
         return result;
     }
 
@@ -253,6 +259,84 @@ public class TemporalTestRunner {
                 "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:overright ?p2" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
+                "}";
+        return query;
+    }
+
+    protected String containedByTimestampPeriod() {
+        final String query = "select distinct *" +
+                "where " +
+                "{" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
+                ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasTimePropagated ?t2" +
+                ". ?t2 strdf:containedBy ?p1" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
+                "}";
+        return query;
+    }
+
+    protected String fetchTable1() {
+        final String query = "select distinct *" +
+                "where " +
+                "{" +
+                "?x1 a strdf:FetchTable1" +
+                ". ?x1 strdf:hasPeriod ?p1" +
+                ". ?p1 strdf:hasSerialization ?s1" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
+                "}";
+        return query;
+    }
+
+    protected String fetchTable2() {
+        final String query = "select distinct *" +
+                "where " +
+                "{" +
+                "?x1 a strdf:FetchTable2" +
+                ". ?x1 strdf:hasPeriod ?p1" +
+                ". ?p1 strdf:hasSerialization ?s1" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
+                "}";
+        return query;
+    }
+
+    protected String fetchTable3() {
+        final String query = "select distinct *" +
+                "where " +
+                "{" +
+                "?x1 a strdf:FetchTable3" +
+                ". ?x1 strdf:hasPeriod ?p1" +
+                ". ?p1 strdf:hasSerialization ?s1" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
+                "}";
+        return query;
+    }
+
+    protected String fetchTable4() {
+        final String query = "select distinct *" +
+                "where " +
+                "{" +
+                "?x1 a strdf:FetchTable4" +
+                ". ?x1 strdf:hasPeriod ?p1" +
+                ". ?p1 strdf:hasSerialization ?s1" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
+                "}";
+        return query;
+    }
+
+    protected String fetchTable5() {
+        final String query = "select distinct *" +
+                "where " +
+                "{" +
+                "?x1 a strdf:FetchTable5" +
+                ". ?x1 strdf:hasPeriod ?p1" +
+                ". ?p1 strdf:hasSerialization ?s1" +
 //                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
 //                ". FILTER(?id1 < ?id2)" +
                 "}";
