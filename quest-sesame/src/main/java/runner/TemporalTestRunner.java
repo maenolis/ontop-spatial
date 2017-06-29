@@ -88,7 +88,7 @@ public class TemporalTestRunner {
 //        result.put("overlapsLiteral", getQueryOverlapsLiteral());
 //        result.put("overleft", getQueryOverleft());
 //        result.put("overright", getQueryOverright());
-        result.put("containedByTimestampPeriod", containedByTimestampPeriod());
+        result.put("periodContainsTimestamp", periodContainsTimestamp());
         result.put("fetchTable1", fetchTable1());
         result.put("fetchTable2", fetchTable2());
         result.put("fetchTable3", fetchTable3());
