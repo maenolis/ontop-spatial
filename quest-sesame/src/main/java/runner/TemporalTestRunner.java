@@ -1,7 +1,6 @@
 package runner;
 
 import com.google.common.base.Stopwatch;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResultHandler;
@@ -9,11 +8,8 @@ import org.openrdf.query.resultio.text.tsv.SPARQLResultsTSVWriter;
 import org.openrdf.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.impl.Log4jLoggerFactory;
 import sesameWrapper.SesameVirtualRepo;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -58,8 +54,7 @@ public class TemporalTestRunner {
                 repo = new SesameVirtualRepo("temporal_name", owlfileName, obdafileName, false, "Temporal");
                 repo.initialize();
                 TupleQuery tupleQuery = repo.getConnection().prepareTupleQuery(QueryLanguage.SPARQL, currentQuery);
-                OutputStream os = new ByteOutputStream();
-                TupleQueryResultHandler handler = new SPARQLResultsTSVWriter(os);
+                TupleQueryResultHandler handler = new SPARQLResultsTSVWriter(System.out);
                 Stopwatch stopwatch = Stopwatch.createStarted();
 
                 tupleQuery.evaluate(handler);
@@ -69,7 +64,6 @@ public class TemporalTestRunner {
 
                 ps.println(stopwatch.toString());
                 ps.close();
-                os.close();
                 LOGGER.info("Closing repository connection.");
                 repo.getConnection().close();
             } catch (Exception e) {
@@ -112,11 +106,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:overlaps ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
@@ -125,11 +119,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:adjacent ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
@@ -138,11 +132,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:after ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
@@ -151,11 +145,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:before ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
@@ -164,11 +158,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:containedBy ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
@@ -177,13 +171,13 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:contains ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 != ?id2)" +
-                ". FILTER(?id2 < 428166)" +
-                ". FILTER(?id1 < 428166)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 != ?id2)" +
+//                ". FILTER(?id2 < 428166)" +
+//                ". FILTER(?id1 < 428166)" +
                 "}";
         return query;
     }
@@ -192,11 +186,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasCreationDate ?p2" +
                 ". ?p1 strdf:contains ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
@@ -205,11 +199,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:equals ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
@@ -218,11 +212,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:nequals ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
@@ -243,11 +237,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:overleft ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
@@ -256,11 +250,11 @@ public class TemporalTestRunner {
         final String query = "select distinct *" +
                 "where " +
                 "{" +
-                "?x1 a strdf:Meeting . ?x2 a strdf:Meeting" +
+                "?x1 a strdf:Meeting . ?x2 a strdf:Event" +
                 ". ?x1 strdf:hasPeriod ?p1 . ?x2 strdf:hasPeriod ?p2" +
                 ". ?p1 strdf:overright ?p2" +
-                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
-                ". FILTER(?id1 < ?id2)" +
+//                ". ?x1 strdf:hasId ?id1 . ?x2 strdf:hasId ?id2" +
+//                ". FILTER(?id1 < ?id2)" +
                 "}";
         return query;
     }
