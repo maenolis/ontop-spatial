@@ -22,5 +22,25 @@ source      select id, duration from meeting
 mappingId   Temporal Event
 target      strdf:Event/{id} a strdf:Event ; strdf:hasId {id} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
 source      select id, duration from event
+
+mappingId   Temporal FetchTable1
+target      strdf:FetchTable1/{id} a strdf:FetchTable1 ; strdf:hasId {id} ; strdf:hasName {name} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
+source      select id, name, duration from fetch_table_1
+
+mappingId   Temporal FetchTable2
+target      strdf:FetchTable2/{id} a strdf:FetchTable2 ; strdf:hasId {id} ; strdf:hasName {name} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
+source      select id, name, duration from fetch_table_2
+
+mappingId   Temporal FetchTable3
+target      strdf:FetchTable3/{id} a strdf:FetchTable3 ; strdf:hasId {id} ; strdf:hasName {name} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
+source      select id, name, duration from fetch_table_3
+
+mappingId   Temporal FetchTable4
+target      strdf:FetchTable4/{id} a strdf:FetchTable4 ; strdf:hasId {id} ; strdf:hasName {name} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
+source      select id, name, duration from fetch_table_4
+
+mappingId   Temporal FetchTable5
+target      strdf:FetchTable5/{id} a strdf:FetchTable5 ; strdf:hasId {id} ; strdf:hasName {name} ; strdf:hasPeriod strdf:Period/{id} . strdf:Period/{id} strdf:hasSerialization {duration}^^strdf:period .
+source      select id, name, duration from fetch_table_5
 ]]
 

@@ -29,6 +29,11 @@
     <owl:Class rdf:about="&strdf;Meeting"/>
     <owl:Class rdf:about="&strdf;Event"/>
     <owl:Class rdf:about="&strdf;Period"/>
+    <owl:Class rdf:about="&strdf;FetchTable1"/>
+    <owl:Class rdf:about="&strdf;FetchTable2"/>
+    <owl:Class rdf:about="&strdf;FetchTable3"/>
+    <owl:Class rdf:about="&strdf;FetchTable4"/>
+    <owl:Class rdf:about="&strdf;FetchTable5"/>
 </rdf:RDF>
 
 
